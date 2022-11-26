@@ -22,7 +22,7 @@ describe("calculateRepayments", () => {
     assertRepaymentsEqual(firstRepayments, [
       {
         month: 1,
-        
+
         amount: 45.24,
         interest: 3.33,
         principal: 41.91,
@@ -36,7 +36,7 @@ describe("calculateRepayments", () => {
         amount: 45.24,
         interest: 3.19,
         principal: 42.04,
-        
+
         remainingPrincipal: 916.05,
         cumulativeInterest: 6.53,
       },
@@ -57,7 +57,7 @@ describe("calculateRepayments", () => {
         month: 22,
 
         amount: 45.24,
-        interest: 0.30,
+        interest: 0.3,
         principal: 44.94,
 
         cumulativeInterest: 40.34,
