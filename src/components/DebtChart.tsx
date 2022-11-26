@@ -26,19 +26,17 @@ ChartJS.register(
   Legend
 );
 
-type RepaymentsChartProps = {
+type DebtChartProps = {
   repayments: Repayment[];
 };
 
-export const RepaymentsChart: React.FC<RepaymentsChartProps> = ({
-  repayments,
-}) => {
+export const DebtChart: React.FC<DebtChartProps> = ({ repayments }) => {
   const options: ChartOptions<"line"> = {
     maintainAspectRatio: true,
     plugins: {
       title: {
         display: true,
-        text: "Monthly Repayments",
+        text: "Remaining Debt",
       },
       tooltip: {
         mode: "index",
@@ -65,35 +63,22 @@ export const RepaymentsChart: React.FC<RepaymentsChartProps> = ({
           },
         },
       },
-      y: {
-        stacked: true,
-        min: 0,
-      },
     },
   };
 
   const labels = R.pluck("month", repayments);
-  const principalData = R.pluck("principal", repayments);
-  const interestData = R.pluck("interest", repayments);
+  const principalData = R.pluck("remainingPrincipal", repayments);
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Principal",
+        label: "Remaining Debt",
         data: principalData,
         fill: "origin",
         pointRadius: 0,
         backgroundColor: "rgba(63, 167, 214, 0.5)",
         borderColor: "rgb(63, 167, 214)",
-      },
-      {
-        label: "Interest",
-        data: interestData,
-        fill: 0,
-        pointRadius: 0,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        borderColor: "rgb(255, 99, 132)",
       },
     ],
   };
