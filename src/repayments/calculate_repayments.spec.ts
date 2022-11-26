@@ -3,9 +3,10 @@ import { calculateRepayments, Repayment } from ".";
 describe("calculateRepayments", () => {
   const params = { loan: 1000, rate: 4, term: 2 };
 
-  it("returns the total cost", () => {
-    const { totalCost } = calculateRepayments(params);
-    expect(totalCost).toBeCloseTo(40.49);
+  it("returns summary statistics", () => {
+    const { totalInterest, monthlyAmount } = calculateRepayments(params);
+    expect(totalInterest).toBeCloseTo(40.49);
+    expect(monthlyAmount).toBeCloseTo(45.24);
   });
 
   it("returns payments for the term", () => {
@@ -17,7 +18,6 @@ describe("calculateRepayments", () => {
     const { repayments } = calculateRepayments(params);
     const firstRepayments = repayments.slice(0, 3);
     const lastRepayments = repayments.slice(-2);
-    //expect(lastRepayments).toEqual([]);
 
     assertRepaymentsEqual(firstRepayments, [
       {
