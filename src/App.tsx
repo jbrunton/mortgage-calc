@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { FormattedNumber } from "react-intl";
+import { useEffect, useRef, useState } from "react";
 import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
+import { CurrencyAmount } from "./components/CurrencyAmount";
 import { Input } from "./components/Input";
+import { RepaymentsTable } from "./components/RepaymentsTable";
 import { SummaryTable } from "./components/SummaryTable";
 import { calculateRepayments, RepaymentsSummary } from "./repayments";
 
@@ -65,56 +66,7 @@ function App() {
         </div>
       )}
 
-      <table className="uk-table uk-table-striped">
-        <thead>
-          <tr>
-            <th>Month</th>
-
-            <th>Amount</th>
-            <th>Principal</th>
-            <th>Interest</th>
-
-            <th>Remaining Principal</th>
-            <th>Cumulative Interest</th>
-          </tr>
-        </thead>
-        <tbody>
-          {summary?.repayments.map((row) => (
-            <tr key={row.month}>
-              <td>{row.month}</td>
-
-              <td>
-                <FormattedNumber value={row.amount} maximumFractionDigits={0} />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.principal}
-                  maximumFractionDigits={0}
-                />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.interest}
-                  maximumFractionDigits={0}
-                />
-              </td>
-
-              <td>
-                <FormattedNumber
-                  value={row.remainingPrincipal}
-                  maximumFractionDigits={0}
-                />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.cumulativeInterest}
-                  maximumFractionDigits={0}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {summary && <RepaymentsTable repayments={summary.repayments} />}
     </div>
   );
 }
