@@ -11,6 +11,7 @@ import {
   Legend,
   Filler,
   ChartOptions,
+  ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Repayment } from "../repayments";
@@ -26,17 +27,18 @@ ChartJS.register(
   Legend
 );
 
-type DebtChartProps = {
-  repayments: Repayment[];
+type RepaymentsChartProps = {
+  title: string;
+  data: ChartData<"line", number[]>;
 };
 
-export const DebtChart: React.FC<DebtChartProps> = ({ repayments }) => {
+const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
   const options: ChartOptions<"line"> = {
     maintainAspectRatio: true,
     plugins: {
       title: {
         display: true,
-        text: "Remaining Debt",
+        text: title,
       },
       tooltip: {
         mode: "index",
@@ -63,14 +65,50 @@ export const DebtChart: React.FC<DebtChartProps> = ({ repayments }) => {
           },
         },
       },
+      y: {
+        stacked: true,
+        min: 0,
+      },
     },
   };
+  return <Line options={options} data={data} height={180} />;
+};
 
-  const labels = R.pluck("month", repayments);
-  const principalData = R.pluck("remainingPrincipal", repayments);
-
+export const MonthlyRepaymentsChart: React.FC<{ repayments: Repayment[] }> = ({
+  repayments,
+}) => {
+  const principalData = R.pluck("principal", repayments);
+  const interestData = R.pluck("interest", repayments);
   const data = {
-    labels,
+    labels: R.pluck("month", repayments),
+    datasets: [
+      {
+        label: "Principal",
+        data: principalData,
+        fill: "origin",
+        pointRadius: 0,
+        backgroundColor: "rgba(63, 167, 214, 0.5)",
+        borderColor: "rgb(63, 167, 214)",
+      },
+      {
+        label: "Interest",
+        data: interestData,
+        fill: 0,
+        pointRadius: 0,
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgb(255, 99, 132)",
+      },
+    ],
+  };
+  return <RepaymentsChart data={data} title="Monthly Repayments" />;
+};
+
+export const DebtChart: React.FC<{ repayments: Repayment[] }> = ({
+  repayments,
+}) => {
+  const principalData = R.pluck("remainingPrincipal", repayments);
+  const data = {
+    labels: R.pluck("month", repayments),
     datasets: [
       {
         label: "Remaining Debt",
@@ -82,5 +120,5 @@ export const DebtChart: React.FC<DebtChartProps> = ({ repayments }) => {
       },
     ],
   };
-  return <Line options={options} data={data} height={180} />;
+  return <RepaymentsChart data={data} title="Monthly Repayments" />;
 };
