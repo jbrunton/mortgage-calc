@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
-import { CurrencyAmount } from "./components/CurrencyAmount";
 import { Input } from "./components/Input";
 import { RepaymentsTable } from "./components/RepaymentsTable";
 import { SummaryTable } from "./components/SummaryTable";
@@ -66,7 +65,26 @@ function App() {
         </div>
       )}
 
-      {summary && <RepaymentsTable repayments={summary.repayments} />}
+      <div className="uk-section uk-text-center">
+        <a data-uk-toggle="target: #modal-example">View monthly repayments</a>
+        <div id="modal-example" className="uk-modal-container" data-uk-modal>
+          <div className="uk-modal-dialog">
+            <button
+              className="uk-modal-close-default"
+              type="button"
+              data-uk-close
+            ></button>
+
+            <div className="uk-modal-header">
+              <h2 className="uk-modal-title">Monthly Repayments</h2>
+            </div>
+
+            <div className="uk-modal-body" data-uk-overflow-auto>
+              {summary && <RepaymentsTable repayments={summary.repayments} />}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

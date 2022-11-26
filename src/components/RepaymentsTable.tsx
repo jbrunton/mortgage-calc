@@ -1,6 +1,7 @@
 import React from "react";
 import { Repayment } from "../repayments";
 import { CurrencyAmount } from "./CurrencyAmount";
+import "./RepaymentsTable.css";
 
 type RepaymentsTableProps = {
   repayments: Repayment[];
@@ -9,7 +10,7 @@ type RepaymentsTableProps = {
 export const RepaymentsTable: React.FC<RepaymentsTableProps> = ({
   repayments,
 }) => (
-  <table className="uk-table uk-table-striped">
+  <table className="repayments-table uk-table uk-table-striped">
     <thead>
       <tr>
         <th>Month</th>
