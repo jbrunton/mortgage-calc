@@ -67,6 +67,7 @@ export const RepaymentsChart: React.FC<RepaymentsChartProps> = ({
       },
       y: {
         stacked: true,
+        min: 0,
       },
     },
   };
@@ -96,5 +97,5 @@ export const RepaymentsChart: React.FC<RepaymentsChartProps> = ({
       },
     ],
   };
-  return <Line options={options} data={data} height={160} />;
+  return <Line options={options} data={data} height={120} />;
 };
