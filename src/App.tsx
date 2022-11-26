@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FormattedNumber } from "react-intl";
 import { Input } from "./components/Input";
+import { RepaymentsChart } from "./components/RepaymentsChart";
 import { calculateRepayments, RepaymentsSummary } from "./repayments";
 
 function App() {
@@ -22,11 +23,23 @@ function App() {
         </div>
       </div>
 
-      <form className="uk-form-horizontal">
-        <Input id="loan" label="Loan" value={loan} onChange={setLoan} />
-        <Input id="rate" label="Rate" value={rate} onChange={setRate} />
-        <Input id="term" label="Term (Years)" value={term} onChange={setTerm} />
-      </form>
+      <div className="uk-grid uk-child-width-expand">
+        <div className="uk-width-1-3">
+          <form className="uk-form-width-small">
+            <Input id="loan" label="Loan" value={loan} onChange={setLoan} />
+            <Input id="rate" label="Rate" value={rate} onChange={setRate} />
+            <Input
+              id="term"
+              label="Term (Years)"
+              value={term}
+              onChange={setTerm}
+            />
+          </form>
+        </div>
+        <div className="uk-width-2-3">
+          {summary && <RepaymentsChart repayments={summary?.repayments} />}
+        </div>
+      </div>
 
       <table className="uk-table uk-table-striped">
         <caption>
@@ -43,15 +56,26 @@ function App() {
         <thead>
           <tr>
             <th>Month</th>
+
+            <th>Amount</th>
             <th>Principal</th>
-            <th>Repayment</th>
             <th>Interest</th>
+
+            <th>Remaining Principal</th>
+            <th>Cumulative Interest</th>
           </tr>
         </thead>
         <tbody>
           {summary?.repayments.map((row) => (
             <tr key={row.month}>
               <td>{row.month}</td>
+
+              <td>
+                <FormattedNumber
+                  value={row.amount}
+                  maximumFractionDigits={0}
+                />
+              </td>
               <td>
                 <FormattedNumber
                   value={row.principal}
@@ -60,13 +84,20 @@ function App() {
               </td>
               <td>
                 <FormattedNumber
-                  value={row.monthlyRepayment}
+                  value={row.interest}
+                  maximumFractionDigits={0}
+                />
+              </td>
+
+              <td>
+                <FormattedNumber
+                  value={row.remainingPrincipal}
                   maximumFractionDigits={0}
                 />
               </td>
               <td>
                 <FormattedNumber
-                  value={row.monthlyInterest}
+                  value={row.cumulativeInterest}
                   maximumFractionDigits={0}
                 />
               </td>

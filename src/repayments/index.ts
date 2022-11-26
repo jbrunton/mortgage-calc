@@ -6,9 +6,12 @@ type Params = {
 
 export type Repayment = {
   month: number;
+
+  amount: number;
+  interest: number;
   principal: number;
-  monthlyRepayment: number;
-  monthlyInterest: number;
+  
+  remainingPrincipal: number;
   cumulativeInterest: number;
 };
 
@@ -22,7 +25,7 @@ export const calculateRepayments = ({
   rate,
   term,
 }: Params): RepaymentsSummary => {
-  let principal = loan;
+  let remainingPrincipal = loan;
   let month = 0;
   let cumulativeInterest = 0;
 
@@ -30,24 +33,28 @@ export const calculateRepayments = ({
 
   const repayments: Repayment[] = [];
 
-  while (principal > 0.01) {
+  while (remainingPrincipal > 0.01) {
     ++month;
 
     const remainingTerm = term * 12 - month;
 
     const ln = Math.pow(1 + monthlyRate, remainingTerm);
-    const monthlyRepayment = principal / ((1 - 1 / ln) / monthlyRate);
+    const amount = remainingPrincipal / ((1 - 1 / ln) / monthlyRate);
 
-    const monthlyInterest = principal * monthlyRate;
-    cumulativeInterest += monthlyInterest;
+    const interest = remainingPrincipal * monthlyRate;
+    cumulativeInterest += interest;
 
-    principal -= monthlyRepayment - monthlyInterest;
+    const principal = amount - interest;
+    remainingPrincipal -= principal;
 
     repayments.push({
       month,
+
+      amount,
       principal,
-      monthlyRepayment,
-      monthlyInterest,
+      interest,
+
+      remainingPrincipal,
       cumulativeInterest,
     });
   }

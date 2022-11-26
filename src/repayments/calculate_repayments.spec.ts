@@ -17,45 +17,61 @@ describe("calculateRepayments", () => {
     const { repayments } = calculateRepayments(params);
     const firstRepayments = repayments.slice(0, 3);
     const lastRepayments = repayments.slice(-2);
+    //expect(lastRepayments).toEqual([]);
 
     assertRepaymentsEqual(firstRepayments, [
       {
         month: 1,
-        monthlyRepayment: 45.24,
-        monthlyInterest: 3.33,
+        
+        amount: 45.24,
+        interest: 3.33,
+        principal: 41.91,
+
         cumulativeInterest: 3.33,
-        principal: 958.09,
+        remainingPrincipal: 958.09,
       },
       {
         month: 2,
-        monthlyRepayment: 45.24,
-        monthlyInterest: 3.19,
+
+        amount: 45.24,
+        interest: 3.19,
+        principal: 42.04,
+        
+        remainingPrincipal: 916.05,
         cumulativeInterest: 6.53,
-        principal: 916.05,
       },
       {
         month: 3,
-        monthlyRepayment: 45.24,
-        monthlyInterest: 3.05,
+
+        amount: 45.24,
+        interest: 3.05,
+        principal: 42.19,
+
+        remainingPrincipal: 873.86,
         cumulativeInterest: 9.58,
-        principal: 873.86,
       },
     ]);
 
     assertRepaymentsEqual(lastRepayments, [
       {
         month: 22,
-        monthlyRepayment: 45.24,
-        monthlyInterest: 0.30,
+
+        amount: 45.24,
+        interest: 0.30,
+        principal: 44.94,
+
         cumulativeInterest: 40.34,
-        principal: 45.09,
+        remainingPrincipal: 45.09,
       },
       {
         month: 23,
-        monthlyRepayment: 45.24,
-        monthlyInterest: 0.15,
+
+        amount: 45.24,
+        interest: 0.15,
+        principal: 45.09,
+
         cumulativeInterest: 40.49,
-        principal: 0,
+        remainingPrincipal: 0,
       },
     ]);
   });
@@ -71,9 +87,12 @@ const assertRepaymentsEqual = (
     const expected = expectedRepayments[index];
 
     expect(actual.month).toEqual(expected.month);
-    expect(actual.monthlyRepayment).toBeCloseTo(expected.monthlyRepayment);
-    expect(actual.monthlyInterest).toBeCloseTo(expected.monthlyInterest);
-    expect(actual.cumulativeInterest).toBeCloseTo(expected.cumulativeInterest);
+
+    expect(actual.amount).toBeCloseTo(expected.amount);
     expect(actual.principal).toBeCloseTo(expected.principal);
+    expect(actual.interest).toBeCloseTo(expected.interest);
+
+    expect(actual.remainingPrincipal).toBeCloseTo(expected.remainingPrincipal);
+    expect(actual.cumulativeInterest).toBeCloseTo(expected.cumulativeInterest);
   });
 };
