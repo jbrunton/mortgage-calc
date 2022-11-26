@@ -34,7 +34,7 @@ type RepaymentsChartProps = {
 
 const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
   const options: ChartOptions<"line"> = {
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -71,7 +71,18 @@ const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
       },
     },
   };
-  return <Line options={options} data={data} height={180} />;
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "33vw",
+        maxHeight: "400px",
+        minHeight: "200px",
+      }}
+    >
+      <Line options={options} data={data} />
+    </div>
+  );
 };
 
 export const MonthlyRepaymentsChart: React.FC<{ repayments: Repayment[] }> = ({
