@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { FormattedNumber } from "react-intl";
-import { DebtChart } from "./components/DebtChart";
+import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
 import { Input } from "./components/Input";
-import { RepaymentsChart } from "./components/RepaymentsChart";
 import { SummaryTable } from "./components/SummaryTable";
 import { calculateRepayments, RepaymentsSummary } from "./repayments";
 
@@ -58,7 +57,7 @@ function App() {
       {summary && (
         <div className="uk-grid">
           <div className="uk-width-1-2">
-            <RepaymentsChart repayments={summary.repayments} />
+            <MonthlyRepaymentsChart repayments={summary.repayments} />
           </div>
           <div className="uk-width-1-2">
             <DebtChart repayments={summary.repayments} />
