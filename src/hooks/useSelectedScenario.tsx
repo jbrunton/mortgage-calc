@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Params } from "../repayments";
+import { Params } from "@entities/repayments";
 
 export type Scenario = {
   params: Params;
@@ -16,8 +16,6 @@ export const useSelectedScenarios = (currentParams: Params) => {
 
   const saveScenario = (description: string | undefined) => {
     if (!currentParams) return;
-
-    console.log("saveScenario", { description });
 
     const params = currentParams;
     const scenario: Scenario = {

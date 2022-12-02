@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Params } from "../repayments";
-import { Input } from "./Input";
+import { Params } from "@entities/repayments";
+import { Input } from "../../components/Input";
 
 type InputsFormProps = {
   params: Params;

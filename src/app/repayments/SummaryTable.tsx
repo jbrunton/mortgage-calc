@@ -1,5 +1,5 @@
+import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
 import { FormattedNumber } from "react-intl";
-import { RepaymentsSummary } from "../repayments";
 
 type SummaryTableProps = {
   summary: RepaymentsSummary;

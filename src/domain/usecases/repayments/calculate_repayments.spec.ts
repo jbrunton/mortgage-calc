@@ -1,4 +1,5 @@
-import { calculateRepayments, Repayment } from ".";
+import { Repayment } from "@entities/repayments";
+import { calculateRepayments } from "./calculate_repayments";
 
 describe("calculateRepayments", () => {
   const params = { loan: 1000, rate: 4, term: 2 };
