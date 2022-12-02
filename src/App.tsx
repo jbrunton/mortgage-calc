@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { FormattedNumber } from "react-intl";
 import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
 import { Input } from "./components/Input";
+import { RepaymentsTable } from "./components/RepaymentsTable";
 import { SummaryTable } from "./components/SummaryTable";
 import { calculateRepayments, RepaymentsSummary } from "./repayments";
 
@@ -65,56 +65,26 @@ function App() {
         </div>
       )}
 
-      <table className="uk-table uk-table-striped">
-        <thead>
-          <tr>
-            <th>Month</th>
+      <div className="uk-section uk-text-center">
+        <a data-uk-toggle="target: #modal-example">View monthly repayments</a>
+        <div id="modal-example" className="uk-modal-container" data-uk-modal>
+          <div className="uk-modal-dialog">
+            <button
+              className="uk-modal-close-default"
+              type="button"
+              data-uk-close
+            ></button>
 
-            <th>Amount</th>
-            <th>Principal</th>
-            <th>Interest</th>
+            <div className="uk-modal-header">
+              <h2 className="uk-modal-title">Monthly Repayments</h2>
+            </div>
 
-            <th>Remaining Principal</th>
-            <th>Cumulative Interest</th>
-          </tr>
-        </thead>
-        <tbody>
-          {summary?.repayments.map((row) => (
-            <tr key={row.month}>
-              <td>{row.month}</td>
-
-              <td>
-                <FormattedNumber value={row.amount} maximumFractionDigits={0} />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.principal}
-                  maximumFractionDigits={0}
-                />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.interest}
-                  maximumFractionDigits={0}
-                />
-              </td>
-
-              <td>
-                <FormattedNumber
-                  value={row.remainingPrincipal}
-                  maximumFractionDigits={0}
-                />
-              </td>
-              <td>
-                <FormattedNumber
-                  value={row.cumulativeInterest}
-                  maximumFractionDigits={0}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <div className="uk-modal-body" data-uk-overflow-auto>
+              {summary && <RepaymentsTable repayments={summary.repayments} />}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
