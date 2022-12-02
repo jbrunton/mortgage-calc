@@ -28,7 +28,7 @@ function App() {
     saveScenario,
     loadScenario,
     deleteScenario,
-  } = useSelectedScenarios(currentParams);
+  } = useSelectedScenarios(currentParams, summary);
 
   const onParamsChange = (params: Params) => {
     setCurrentParams(params);

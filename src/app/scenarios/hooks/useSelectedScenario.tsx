@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Params } from "@entities/repayments";
 import { Scenario } from "@entities/scenarios";
+import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
 
-export const useSelectedScenarios = (currentParams: Params) => {
+export const useSelectedScenarios = (
+  currentParams: Params,
+  currentSummary: RepaymentsSummary | undefined
+) => {
   const [scenarios, setScenarios] = useState<Scenario[]>(() => {
     const scenarios = localStorage.getItem("scenarios");
     return scenarios ? JSON.parse(scenarios) : [];
@@ -11,11 +15,13 @@ export const useSelectedScenarios = (currentParams: Params) => {
   const [selectedScenario, setSelectedScenario] = useState<Scenario>();
 
   const saveScenario = (description: string | undefined) => {
-    if (!currentParams) return;
+    if (!currentSummary) return;
 
     const params = currentParams;
+    const { monthlyAmount, totalInterest } = currentSummary;
     const scenario: Scenario = {
       params,
+      summary: { monthlyAmount, totalInterest },
       description:
         description ??
         `Loan: ${params.loan}, Rate: ${params.rate}, Term: ${params.term}`,

@@ -1,3 +1,4 @@
+import { CurrencyAmount } from "@components/CurrencyAmount";
 import { Scenario } from "@entities/scenarios";
 import React, { useState } from "react";
 import { ModalDialog } from "../../../components/ModalDialog";
@@ -92,9 +93,16 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                   <div>
                     {scenario.description}
                     <div className="uk-nav-subtitle">
-                      Loan: {scenario.params.loan} &middot; Rate:{" "}
-                      {scenario.params.rate} &middot; Term:{" "}
+                      Loan: <CurrencyAmount amount={scenario.params.loan} />{" "}
+                      &middot; Rate: {scenario.params.rate} &middot; Term:{" "}
                       {scenario.params.term}
+                      <br />
+                      Monthly Repayment:{" "}
+                      <CurrencyAmount
+                        amount={scenario.summary.monthlyAmount}
+                      />{" "}
+                      &middot; Total Interest:{" "}
+                      <CurrencyAmount amount={scenario.summary.totalInterest} />
                     </div>
                   </div>
                 </a>
