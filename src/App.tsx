@@ -15,8 +15,19 @@ function App() {
     term: 20,
   });
 
-  const { selectedScenario, scenarios, saveScenario, loadScenario } =
-    useSelectedScenarios(currentParams);
+  const {
+    selectedScenario,
+    scenarios,
+    saveScenario,
+    loadScenario,
+    deleteScenario,
+  } = useSelectedScenarios(currentParams);
+
+  const onParamsChange = (params: Params) => {
+    console.log("onParamsChange");
+    setCurrentParams(params);
+    loadScenario(undefined);
+  };
 
   useEffect(() => {
     const summary = calculateRepayments(currentParams);
@@ -25,7 +36,6 @@ function App() {
 
   useEffect(() => {
     if (selectedScenario) {
-      console.log("setCurrentParams", selectedScenario.params);
       setCurrentParams(selectedScenario.params);
     }
   }, [selectedScenario]);
@@ -41,13 +51,14 @@ function App() {
       <ScenariosMenu
         scenarios={scenarios}
         selectedScenario={selectedScenario}
-        onSaveClick={saveScenario}
-        onLoadClick={loadScenario}
+        saveScenario={saveScenario}
+        loadScenaio={loadScenario}
+        deleteScenario={deleteScenario}
       />
 
       <div className="uk-grid">
         <div className="uk-width-1-2">
-          <InputsForm params={currentParams} onChange={setCurrentParams} />
+          <InputsForm params={currentParams} onChange={onParamsChange} />
         </div>
         <div className="uk-width-1-2">
           {summary && <SummaryTable summary={summary} />}

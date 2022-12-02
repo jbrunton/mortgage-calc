@@ -20,7 +20,10 @@ export const InputsForm: React.FC<InputsFormProps> = ({ params, onChange }) => {
   }, [JSON.stringify(params)]);
 
   const onBlur = () => {
-    onChange({ loan, rate, term });
+    const newParams = { loan, rate, term };
+    if (JSON.stringify(newParams) !== JSON.stringify(params)) {
+      onChange(newParams);
+    }
   };
 
   return (
