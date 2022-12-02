@@ -1,6 +1,6 @@
+import { Scenario } from "@entities/scenarios";
 import React, { useState } from "react";
-import { Scenario } from "../hooks/useSelectedScenario";
-import { ModalDialog } from "./ModalDialog";
+import { ModalDialog } from "../../../components/ModalDialog";
 
 type ScenariosMenuProps = {
   scenarios: Scenario[];

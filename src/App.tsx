@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
-import { InputsForm } from "./app/repayments/InputsForm";
-import { ScenariosMenu } from "./components/ScenariosMenu";
-import { SummaryTable } from "./app/repayments/SummaryTable";
+import {
+  DebtChart,
+  MonthlyRepaymentsChart,
+} from "./app/repayments/components/charts";
+import { InputsForm } from "./app/repayments/components/InputsForm";
+import { ScenariosMenu } from "./app/scenarios/components/ScenariosMenu";
 import { Params } from "@entities/repayments";
 import {
   calculateRepayments,
   RepaymentsSummary,
 } from "@usecases/repayments/calculate_repayments";
-import { useSelectedScenarios } from "./hooks/useSelectedScenario";
-import { RepaymentsTable } from "@app/repayments/RepaymentsTable";
+import { useSelectedScenarios } from "./app/scenarios/hooks/useSelectedScenario";
+import { SummaryTable } from "@app/repayments/components/SummaryTable";
+import { RepaymentsTable } from "@app/repayments/components/RepaymentsTable";
 
 function App() {
   const [summary, setSummary] = useState<RepaymentsSummary>();

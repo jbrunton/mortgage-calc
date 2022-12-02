@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { Params } from "@entities/repayments";
-
-export type Scenario = {
-  params: Params;
-  description: string;
-};
+import { Scenario } from "@entities/scenarios";
 
 export const useSelectedScenarios = (currentParams: Params) => {
   const [scenarios, setScenarios] = useState<Scenario[]>(() => {
