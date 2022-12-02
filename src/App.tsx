@@ -1,20 +1,34 @@
 import { useEffect, useState } from "react";
 import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
-import { Input } from "./components/Input";
+import { InputsForm } from "./components/InputsForm";
 import { RepaymentsTable } from "./components/RepaymentsTable";
+import { ScenariosMenu } from "./components/ScenariosMenu";
 import { SummaryTable } from "./components/SummaryTable";
-import { calculateRepayments, RepaymentsSummary } from "./repayments";
+import { useSelectedScenarios } from "./hooks/useSelectedScenario";
+import { calculateRepayments, Params, RepaymentsSummary } from "./repayments";
 
 function App() {
-  const [loan, setLoan] = useState(100_000);
-  const [rate, setRate] = useState(4);
-  const [term, setTerm] = useState(20);
   const [summary, setSummary] = useState<RepaymentsSummary>();
+  const [currentParams, setCurrentParams] = useState<Params>({
+    loan: 100_000,
+    rate: 4,
+    term: 20,
+  });
+
+  const { selectedScenario, scenarios, saveScenario, loadScenario } =
+    useSelectedScenarios(currentParams);
 
   useEffect(() => {
-    const summary = calculateRepayments({ loan, rate, term });
+    const summary = calculateRepayments(currentParams);
     setSummary(summary);
-  }, [loan, rate, term]);
+  }, [currentParams]);
+
+  useEffect(() => {
+    if (selectedScenario) {
+      console.log("setCurrentParams", selectedScenario.params);
+      setCurrentParams(selectedScenario.params);
+    }
+  }, [selectedScenario]);
 
   return (
     <div className="App uk-container">
@@ -24,30 +38,16 @@ function App() {
         Calculate repayments and interest for a mortgage.
       </p>
 
+      <ScenariosMenu
+        scenarios={scenarios}
+        selectedScenario={selectedScenario}
+        onSaveClick={saveScenario}
+        onLoadClick={loadScenario}
+      />
+
       <div className="uk-grid">
         <div className="uk-width-1-2">
-          <form className="uk-form-horizontal">
-            <Input
-              id="loan"
-              label="Loan"
-              defaultValue={loan}
-              onValueChange={setLoan}
-            />
-            <Input
-              id="rate"
-              label="Interest Rate"
-              suffix="%"
-              defaultValue={rate}
-              onValueChange={setRate}
-            />
-            <Input
-              id="term"
-              label="Term"
-              suffix="years"
-              defaultValue={term}
-              onValueChange={setTerm}
-            />
-          </form>
+          <InputsForm params={currentParams} onChange={setCurrentParams} />
         </div>
         <div className="uk-width-1-2">
           {summary && <SummaryTable summary={summary} />}

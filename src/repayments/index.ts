@@ -1,4 +1,4 @@
-type Params = {
+export type Params = {
   loan: number;
   rate: number;
   term: number;

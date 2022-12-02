@@ -4,19 +4,21 @@ import "./Input.css";
 type InputProps = {
   id: string;
   label: string;
-  defaultValue: number;
+  value: number;
   onValueChange: (value: number) => void;
+  onBlur: () => void;
   suffix?: string;
 };
 
 export const Input: React.FC<InputProps> = ({
   id,
   label,
-  defaultValue,
+  value,
   onValueChange,
+  onBlur,
   suffix,
 }) => {
-  const onBlur: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = parseFloat(e.target.value);
     if (!isNaN(value)) {
       onValueChange(value);
@@ -38,8 +40,9 @@ export const Input: React.FC<InputProps> = ({
             className="uk-input uk-form-width-medium"
             id={id}
             type="text"
+            onChange={onChange}
             onBlur={onBlur}
-            defaultValue={defaultValue}
+            value={value}
           />
         </div>
       </div>
