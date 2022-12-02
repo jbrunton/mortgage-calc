@@ -14,7 +14,7 @@ import {
   ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Repayment } from "../repayments";
+import { Repayment } from "@entities/repayments";
 
 ChartJS.register(
   CategoryScale,
