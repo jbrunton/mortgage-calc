@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { DebtChart, MonthlyRepaymentsChart } from "./components/charts";
-import { InputsForm } from "./components/InputsForm";
-import { RepaymentsTable } from "./components/RepaymentsTable";
+import { InputsForm } from "./app/repayments/InputsForm";
 import { ScenariosMenu } from "./components/ScenariosMenu";
-import { SummaryTable } from "./components/SummaryTable";
+import { SummaryTable } from "./app/repayments/SummaryTable";
+import { Params } from "@entities/repayments";
+import {
+  calculateRepayments,
+  RepaymentsSummary,
+} from "@usecases/repayments/calculate_repayments";
 import { useSelectedScenarios } from "./hooks/useSelectedScenario";
-import { calculateRepayments, Params, RepaymentsSummary } from "./repayments";
+import { RepaymentsTable } from "@app/repayments/RepaymentsTable";
 
 function App() {
   const [summary, setSummary] = useState<RepaymentsSummary>();
@@ -24,7 +28,6 @@ function App() {
   } = useSelectedScenarios(currentParams);
 
   const onParamsChange = (params: Params) => {
-    console.log("onParamsChange");
     setCurrentParams(params);
     loadScenario(undefined);
   };

@@ -1,7 +1,7 @@
 import React from "react";
-import { Repayment } from "../repayments";
-import { CurrencyAmount } from "./CurrencyAmount";
+import { Repayment } from "@entities/repayments";
 import "./RepaymentsTable.css";
+import { CurrencyAmount } from "@components/CurrencyAmount";
 
 type RepaymentsTableProps = {
   repayments: Repayment[];
