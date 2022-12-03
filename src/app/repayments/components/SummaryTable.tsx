@@ -10,8 +10,8 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
   <Table>
     <Tbody>
       <Tr>
-        <Th p="0">MonThly Repayment</Th>
-        <Td>
+        <Th p="0">Monthly Repayment</Th>
+        <Td data-testid="monthly-repayment">
           <FormattedNumber
             value={summary.monthlyAmount}
             maximumFractionDigits={0}
@@ -21,7 +21,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
       </Tr>
       <Tr>
         <Th p="0">Total Repayments</Th>
-        <Td>
+        <Td data-testid="total-repayments">
           <FormattedNumber
             value={summary.totalRepayment}
             maximumFractionDigits={0}
@@ -31,7 +31,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
       </Tr>
       <Tr>
         <Th p="0">Interest</Th>
-        <Td>
+        <Td data-testid="total-interest">
           <FormattedNumber
             value={summary.totalInterest}
             maximumFractionDigits={0}
