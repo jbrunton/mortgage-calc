@@ -1,4 +1,5 @@
 import React from "react";
+import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
 import { Repayment } from "@entities/repayments";
 import "./RepaymentsTable.css";
 import { CurrencyAmount } from "@components/CurrencyAmount";
@@ -7,45 +8,53 @@ type RepaymentsTableProps = {
   repayments: Repayment[];
 };
 
+const StickyTh = chakra(Th, {
+  baseStyle: {
+    position: "sticky",
+    top: "-0.5rem",
+    backgroundColor: "#fff",
+  },
+});
+
 export const RepaymentsTable: React.FC<RepaymentsTableProps> = ({
   repayments,
 }) => (
-  <table className="repayments-table uk-table uk-table-striped">
-    <thead>
-      <tr>
-        <th>Month</th>
+  <Table variant="striped">
+    <Thead>
+      <Tr>
+        <StickyTh>Month</StickyTh>
 
-        <th className="uk-text-right">Amount</th>
-        <th className="uk-text-right">Principal</th>
-        <th className="uk-text-right">Interest</th>
+        <StickyTh textAlign="right">Amount</StickyTh>
+        <StickyTh textAlign="right">Principal</StickyTh>
+        <StickyTh textAlign="right">Interest</StickyTh>
 
-        <th className="uk-text-right">Remaining Principal</th>
-        <th className="uk-text-right">Cumulative Interest</th>
-      </tr>
-    </thead>
-    <tbody>
+        <StickyTh textAlign="right">Remaining Principal</StickyTh>
+        <StickyTh textAlign="right">Cumulative Interest</StickyTh>
+      </Tr>
+    </Thead>
+    <Tbody>
       {repayments.map((row) => (
-        <tr key={row.month}>
-          <td>{row.month}</td>
+        <Tr key={row.month}>
+          <Td>{row.month}</Td>
 
-          <td className="uk-text-right">
+          <Td textAlign="right">
             <CurrencyAmount amount={row.amount} />
-          </td>
-          <td className="uk-text-right">
+          </Td>
+          <Td textAlign="right">
             <CurrencyAmount amount={row.principal} />
-          </td>
-          <td className="uk-text-right">
+          </Td>
+          <Td textAlign="right">
             <CurrencyAmount amount={row.interest} />
-          </td>
+          </Td>
 
-          <td className="uk-text-right">
+          <Td textAlign="right">
             <CurrencyAmount amount={row.remainingPrincipal} />
-          </td>
-          <td className="uk-text-right">
+          </Td>
+          <Td textAlign="right">
             <CurrencyAmount amount={row.cumulativeInterest} />
-          </td>
-        </tr>
+          </Td>
+        </Tr>
       ))}
-    </tbody>
-  </table>
+    </Tbody>
+  </Table>
 );

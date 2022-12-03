@@ -1,50 +1,51 @@
 import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
 import { FormattedNumber } from "react-intl";
+import { Table, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 type SummaryTableProps = {
   summary: RepaymentsSummary;
 };
 
 export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
-  <table className="uk-table uk-table-divider">
-    <tbody>
-      <tr>
-        <th>Monthly Repayment</th>
-        <td>
+  <Table>
+    <Tbody>
+      <Tr>
+        <Th p="0">MonThly Repayment</Th>
+        <Td>
           <FormattedNumber
             value={summary.monthlyAmount}
             maximumFractionDigits={0}
           />
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>Total Repayments</th>
-        <td>
+        </Td>
+        <Td></Td>
+      </Tr>
+      <Tr>
+        <Th p="0">Total Repayments</Th>
+        <Td>
           <FormattedNumber
             value={summary.totalRepayment}
             maximumFractionDigits={0}
           />
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>Interest</th>
-        <td>
+        </Td>
+        <Td></Td>
+      </Tr>
+      <Tr>
+        <Th p="0">Interest</Th>
+        <Td>
           <FormattedNumber
             value={summary.totalInterest}
             maximumFractionDigits={0}
           />
-        </td>
-        <td>
+        </Td>
+        <Td>
           (
           <FormattedNumber
             value={(summary.totalInterest / summary.params.loan) * 100}
             maximumFractionDigits={0}
           />
           % of loan value)
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
 );

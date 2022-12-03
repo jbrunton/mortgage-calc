@@ -1,3 +1,19 @@
+import {
+  Button,
+  Drawer,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerBody,
+  LinkBox,
+  LinkOverlay,
+  Heading,
+  Text,
+  Flex,
+  Spacer,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { DeleteIcon, PlusSquareIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { CurrencyAmount } from "@components/CurrencyAmount";
 import { Scenario } from "@entities/scenarios";
 import React, { useState } from "react";
@@ -8,7 +24,7 @@ type ScenariosMenuProps = {
   scenarios: Scenario[];
   selectedScenario: Scenario | undefined;
   saveScenario: (name: string | undefined) => void;
-  loadScenaio: (scenario: Scenario) => void;
+  loadScenario: (scenario: Scenario) => void;
   deleteScenario: () => void;
 };
 
@@ -16,81 +32,99 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
   scenarios,
   selectedScenario,
   saveScenario,
-  loadScenaio,
+  loadScenario,
   deleteScenario,
 }) => {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose,
+  } = useDisclosure();
 
   return (
     <>
-      <div id="offcanvas-slide" data-uk-offcanvas="flip: true">
-        <div className="uk-offcanvas-bar">
-          <ul className="uk-nav uk-nav-default">
-            <li className="uk-nav-header">Scenarios</li>
-
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={onDrawerClose}
+        placement="right"
+        size="sm"
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Scenarios</DrawerHeader>
+          <DrawerBody>
             {scenarios.map((scenario, index) => (
-              <li
+              <LinkBox
                 key={`scenario-${index}`}
                 className={
                   scenario === selectedScenario ? "uk-active" : undefined
                 }
+                onClick={() => {
+                  onDrawerClose();
+                  loadScenario(scenario);
+                }}
+                mb="2"
               >
-                <a href="#" onClick={() => loadScenaio(scenario)}>
-                  <div>
-                    {scenario.description}
-                    <div className="uk-nav-subtitle">
-                      Loan: <CurrencyAmount amount={scenario.params.loan} />{" "}
-                      &middot; Rate: {scenario.params.rate} &middot; Term:{" "}
-                      {scenario.params.term}
-                      <br />
-                      Monthly Repayment:{" "}
-                      <CurrencyAmount
-                        amount={scenario.summary.monthlyAmount}
-                      />{" "}
-                      &middot; Total Interest:{" "}
-                      <CurrencyAmount amount={scenario.summary.totalInterest} />
-                    </div>
-                  </div>
-                </a>
-              </li>
+                <Heading size="xs">
+                  <LinkOverlay href="#">{scenario.description}</LinkOverlay>
+                </Heading>
+                <Text fontSize="xs">
+                  Loan: <CurrencyAmount amount={scenario.params.loan} />{" "}
+                  &middot; Rate: {scenario.params.rate} &middot; Term:{" "}
+                  {scenario.params.term}
+                </Text>
+                <Text fontSize="xs">
+                  Monthly Repayment:{" "}
+                  <CurrencyAmount amount={scenario.summary.monthlyAmount} />{" "}
+                  &middot; Total Interest:{" "}
+                  <CurrencyAmount amount={scenario.summary.totalInterest} />
+                </Text>
+              </LinkBox>
             ))}
-          </ul>
-        </div>
-      </div>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
 
-      <div className="uk-flex uk-flex-right uk-flex-between uk-margin-bottom">
-        {selectedScenario ? (
-          <span className="uk-text-lead">
-            Scenario: {selectedScenario.description}
-          </span>
-        ) : (
-          <span></span>
-        )}
+      <Flex minWidth="max-content" mb="8px">
+        <div>
+          {selectedScenario && (
+            <Heading size="lg">
+              Scenario: {selectedScenario.description}
+            </Heading>
+          )}
+        </div>
+
+        <Spacer />
 
         <div>
-          <ul className="uk-iconnav">
-            {selectedScenario ? (
-              <li>
-                <a href="#" onClick={() => setShowDeleteDialog(true)}>
-                  <span uk-icon="icon: trash"></span>Delete Scenario
-                </a>
-              </li>
-            ) : (
-              <li>
-                <a href="#" onClick={() => setShowSaveDialog(true)}>
-                  <span uk-icon="icon: bookmark"></span>Save Scenario
-                </a>
-              </li>
-            )}
-            <li>
-              <a href="#" data-uk-toggle="target: #offcanvas-slide">
-                <span uk-icon="icon: menu"></span>Scenarios
-              </a>
-            </li>
-          </ul>
+          {selectedScenario ? (
+            <Button
+              variant="ghost"
+              leftIcon={<DeleteIcon />}
+              onClick={() => setShowDeleteDialog(true)}
+            >
+              Delete Scenario
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              leftIcon={<PlusSquareIcon />}
+              onClick={() => setShowSaveDialog(true)}
+            >
+              Save Scenario
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            leftIcon={<HamburgerIcon />}
+            onClick={onDrawerOpen}
+          >
+            Scenarios
+          </Button>
         </div>
-      </div>
+      </Flex>
 
       <SaveScenarioDialog
         show={showSaveDialog}

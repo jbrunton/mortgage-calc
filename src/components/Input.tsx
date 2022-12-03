@@ -1,5 +1,12 @@
 import React from "react";
-import "./Input.css";
+import {
+  FormLabel,
+  Flex,
+  Spacer,
+  InputGroup,
+  InputRightAddon,
+  Input,
+} from "@chakra-ui/react";
 
 type InputProps = {
   id: string;
@@ -10,8 +17,7 @@ type InputProps = {
   suffix?: string;
 };
 
-export const Input: React.FC<InputProps> = ({
-  id,
+export const ParamInput: React.FC<InputProps> = ({
   label,
   value,
   onValueChange,
@@ -25,27 +31,19 @@ export const Input: React.FC<InputProps> = ({
     }
   };
   return (
-    <div className="uk-margin">
-      <label className="uk-form-label" htmlFor={id}>
-        {label}
-      </label>
-      <div className="uk-form-controls">
-        <div className="uk-inline">
-          {suffix && (
-            <span className="uk-form-icon uk-form-icon-flip suffix">
-              {suffix}
-            </span>
-          )}
-          <input
-            className="uk-input uk-form-width-medium"
-            id={id}
-            type="text"
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-          />
-        </div>
-      </div>
-    </div>
+    <Flex mb={8}>
+      <FormLabel flex={1}>{label}</FormLabel>
+      <InputGroup flex={1}>
+        <Input
+          placeholder="mysite"
+          type="number"
+          onChange={onChange}
+          onBlur={onBlur}
+          value={value}
+        />
+        {suffix && <InputRightAddon children={suffix} />}
+      </InputGroup>
+      <Spacer flex={1} />
+    </Flex>
   );
 };
