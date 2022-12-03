@@ -1,7 +1,8 @@
 import { CurrencyAmount } from "@components/CurrencyAmount";
 import { Scenario } from "@entities/scenarios";
 import React, { useState } from "react";
-import { ModalDialog } from "../../../components/ModalDialog";
+import { DeleteScenarioDialog } from "./DeleteScenarioDialog";
+import { SaveScenarioDialog } from "./SaveScenarioDialog";
 
 type ScenariosMenuProps = {
   scenarios: Scenario[];
@@ -9,60 +10,6 @@ type ScenariosMenuProps = {
   saveScenario: (name: string | undefined) => void;
   loadScenaio: (scenario: Scenario) => void;
   deleteScenario: () => void;
-};
-
-type SaveDialogProps = {
-  show: boolean;
-  onClose: () => void;
-  onSubmit: (description: string) => void;
-};
-
-const SaveDialog: React.FC<SaveDialogProps> = ({ show, onClose, onSubmit }) => {
-  const [newScenarioName, setNewScenarioName] = useState<string>("");
-  return (
-    <ModalDialog
-      title="Save Scenario"
-      show={show}
-      submitLabel="Save"
-      onClose={onClose}
-      onSubmit={() => onSubmit(newScenarioName)}
-    >
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="Scenario Name"
-          aria-label="Input"
-          value={newScenarioName}
-          onChange={(e) => setNewScenarioName(e.target.value)}
-        />
-      </div>
-    </ModalDialog>
-  );
-};
-
-type DeleteDialogProps = {
-  show: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
-};
-
-const DeleteDialog: React.FC<DeleteDialogProps> = ({
-  show,
-  onClose,
-  onSubmit,
-}) => {
-  return (
-    <ModalDialog
-      title="Delete Scenario"
-      show={show}
-      submitLabel="Delete"
-      onClose={onClose}
-      onSubmit={onSubmit}
-    >
-      <p>Delete scenario?</p>
-    </ModalDialog>
-  );
 };
 
 export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
@@ -145,13 +92,13 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
         </div>
       </div>
 
-      <SaveDialog
+      <SaveScenarioDialog
         show={showSaveDialog}
         onClose={() => setShowSaveDialog(false)}
         onSubmit={saveScenario}
       />
 
-      <DeleteDialog
+      <DeleteScenarioDialog
         show={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onSubmit={deleteScenario}
