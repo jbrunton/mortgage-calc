@@ -14,18 +14,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
+import { IntlProvider } from "react-intl";
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   DebtChart,
   MonthlyRepaymentsChart,
-} from "./app/repayments/components/charts";
-import { InputsForm } from "./app/repayments/components/InputsForm";
-import { ScenariosMenu } from "./app/scenarios/components/ScenariosMenu";
+} from "@app/repayments/components/charts";
+import { InputsForm } from "@app/repayments/components/InputsForm";
+import { ScenariosMenu } from "@app/scenarios/components/ScenariosMenu";
 import { Params } from "@entities/repayments";
 import {
   calculateRepayments,
   RepaymentsSummary,
 } from "@usecases/repayments/calculate_repayments";
-import { useSelectedScenarios } from "./app/scenarios/hooks/useSelectedScenario";
+import { useSelectedScenarios } from "@app/scenarios/hooks/useSelectedScenario";
 import { SummaryTable } from "@app/repayments/components/SummaryTable";
 import { RepaymentsTable } from "@app/repayments/components/RepaymentsTable";
 
@@ -67,7 +69,7 @@ function App() {
     onClose: closeRepaymentsModal,
   } = useDisclosure();
 
-  return (
+  const container = (
     <Container maxWidth="1200px">
       <Heading>Mortgage Calculator</Heading>
 
@@ -121,6 +123,12 @@ function App() {
         </ModalContent>
       </Modal>
     </Container>
+  );
+
+  return (
+    <IntlProvider locale={"en"}>
+      <ChakraProvider>{container}</ChakraProvider>
+    </IntlProvider>
   );
 }
 

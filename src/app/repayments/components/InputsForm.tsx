@@ -30,23 +30,23 @@ export const InputsForm: React.FC<InputsFormProps> = ({ params, onChange }) => {
   return (
     <FormControl>
       <ParamInput
-        id="loan"
         label="Loan"
+        testId="loan"
         value={loan}
         onValueChange={setLoan}
         onBlur={onBlur}
       />
       <ParamInput
-        id="rate"
         label="Interest Rate"
+        testId="rate"
         suffix="%"
         value={rate}
         onValueChange={setRate}
         onBlur={onBlur}
       />
       <ParamInput
-        id="term"
         label="Term"
+        testId="term"
         suffix="years"
         value={term}
         onValueChange={setTerm}

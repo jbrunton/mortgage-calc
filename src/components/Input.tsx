@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 type InputProps = {
-  id: string;
+  testId: string;
   label: string;
   value: number;
   onValueChange: (value: number) => void;
@@ -18,6 +18,7 @@ type InputProps = {
 };
 
 export const ParamInput: React.FC<InputProps> = ({
+  testId,
   label,
   value,
   onValueChange,
@@ -35,6 +36,7 @@ export const ParamInput: React.FC<InputProps> = ({
       <FormLabel flex={1}>{label}</FormLabel>
       <InputGroup flex={1}>
         <Input
+          data-testid={testId}
           placeholder="mysite"
           type="number"
           onChange={onChange}
