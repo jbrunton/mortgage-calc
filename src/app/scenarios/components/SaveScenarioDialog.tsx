@@ -1,5 +1,6 @@
 import { ModalDialog } from "@components/ModalDialog";
 import React, { useState } from "react";
+import { Input } from "@chakra-ui/react";
 
 type SaveDialogProps = {
   show: boolean;
@@ -24,16 +25,13 @@ export const SaveScenarioDialog: React.FC<SaveDialogProps> = ({
       }}
       onSubmit={() => onSubmit(newScenarioName)}
     >
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="Scenario Name"
-          aria-label="Input"
-          value={newScenarioName}
-          onChange={(e) => setNewScenarioName(e.target.value)}
-        />
-      </div>
+      <Input
+        type="text"
+        placeholder="Scenario Name"
+        aria-label="Input"
+        value={newScenarioName}
+        onChange={(e) => setNewScenarioName(e.target.value)}
+      />
     </ModalDialog>
   );
 };

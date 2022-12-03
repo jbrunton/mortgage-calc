@@ -1,5 +1,20 @@
 import { useEffect, useState } from "react";
 import {
+  Heading,
+  Center,
+  Button,
+  Container,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  SimpleGrid,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
+import {
   DebtChart,
   MonthlyRepaymentsChart,
 } from "./app/repayments/components/charts";
@@ -46,63 +61,66 @@ function App() {
     }
   }, [selectedScenario]);
 
-  return (
-    <div className="App uk-container">
-      <h1>Mortgage Calculator</h1>
+  const {
+    isOpen: isRepaymentsModalOpen,
+    onOpen: openRepaymentsModal,
+    onClose: closeRepaymentsModal,
+  } = useDisclosure();
 
-      <p className="uk-text-lead">
-        Calculate repayments and interest for a mortgage.
-      </p>
+  return (
+    <Container maxWidth="1200px">
+      <Heading>Mortgage Calculator</Heading>
+
+      <p>Calculate repayments and interest for a mortgage.</p>
 
       <ScenariosMenu
         scenarios={scenarios}
         selectedScenario={selectedScenario}
         saveScenario={saveScenario}
-        loadScenaio={loadScenario}
+        loadScenario={loadScenario}
         deleteScenario={deleteScenario}
       />
 
-      <div className="uk-grid">
-        <div className="uk-width-1-2">
-          <InputsForm params={currentParams} onChange={onParamsChange} />
-        </div>
-        <div className="uk-width-1-2">
-          {summary && <SummaryTable summary={summary} />}
-        </div>
-      </div>
+      <SimpleGrid columns={2}>
+        <InputsForm params={currentParams} onChange={onParamsChange} />
+        {summary && <SummaryTable summary={summary} />}
+      </SimpleGrid>
 
       {summary && (
-        <div className="uk-grid">
-          <div className="uk-width-1-2">
-            <MonthlyRepaymentsChart repayments={summary.repayments} />
-          </div>
-          <div className="uk-width-1-2">
-            <DebtChart repayments={summary.repayments} />
-          </div>
-        </div>
+        <SimpleGrid columns={2} mt="24px">
+          <MonthlyRepaymentsChart repayments={summary.repayments} />
+          <DebtChart repayments={summary.repayments} />
+        </SimpleGrid>
       )}
 
-      <div className="uk-section uk-text-center">
-        <a data-uk-toggle="target: #modal-example">View monthly repayments</a>
-        <div id="modal-example" className="uk-modal-container" data-uk-modal>
-          <div className="uk-modal-dialog">
-            <button
-              className="uk-modal-close-default"
-              type="button"
-              data-uk-close
-            ></button>
+      <Center>
+        <Button
+          mt="24px"
+          variant="ghost"
+          onClick={openRepaymentsModal}
+          leftIcon={<Search2Icon />}
+        >
+          View monthly repayments
+        </Button>
+      </Center>
 
-            <div className="uk-modal-header">
-              <h2 className="uk-modal-title">Monthly Repayments</h2>
-            </div>
-
-            <div className="uk-modal-body" data-uk-overflow-auto>
-              {summary && <RepaymentsTable repayments={summary.repayments} />}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Modal
+        onClose={closeRepaymentsModal}
+        isOpen={isRepaymentsModalOpen}
+        scrollBehavior="inside"
+        size="full"
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Monthly Repayments</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {summary && <RepaymentsTable repayments={summary.repayments} />}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </Container>
   );
 }
 

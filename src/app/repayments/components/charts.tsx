@@ -131,5 +131,5 @@ export const DebtChart: React.FC<{ repayments: Repayment[] }> = ({
       },
     ],
   };
-  return <RepaymentsChart data={data} title="Monthly Repayments" />;
+  return <RepaymentsChart data={data} title="Debt by Month" />;
 };
