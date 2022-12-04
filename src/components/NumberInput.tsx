@@ -17,7 +17,7 @@ type InputProps = {
   suffix?: string;
 };
 
-export const ParamInput: React.FC<InputProps> = ({
+export const NumberInput: React.FC<InputProps> = ({
   testId,
   label,
   value,
