@@ -58,14 +58,17 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
             {scenarios.map((scenario, index) => (
               <LinkBox
                 key={`scenario-${index}`}
-                className={
-                  scenario === selectedScenario ? "uk-active" : undefined
-                }
                 onClick={() => {
                   onDrawerClose();
                   loadScenario(scenario);
                 }}
-                mb="2"
+                p="1"
+                mb="1"
+                borderRadius="4"
+                backgroundColor={
+                  scenario === selectedScenario ? "gray.200" : undefined
+                }
+                _hover={{ backgroundColor: "gray.100" }}
               >
                 <Heading size="xs">
                   <LinkOverlay href="#">{scenario.description}</LinkOverlay>
