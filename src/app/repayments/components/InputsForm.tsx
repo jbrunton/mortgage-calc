@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormControl } from "@chakra-ui/react";
 import { Params } from "@entities/repayments";
-import { ParamInput } from "../../../components/Input";
+import { NumberInput } from "../../../components/NumberInput";
 
 type InputsFormProps = {
   params: Params;
@@ -29,14 +29,14 @@ export const InputsForm: React.FC<InputsFormProps> = ({ params, onChange }) => {
 
   return (
     <FormControl>
-      <ParamInput
+      <NumberInput
         label="Loan"
         testId="loan"
         value={loan}
         onValueChange={setLoan}
         onBlur={onBlur}
       />
-      <ParamInput
+      <NumberInput
         label="Interest Rate"
         testId="rate"
         suffix="%"
@@ -44,7 +44,7 @@ export const InputsForm: React.FC<InputsFormProps> = ({ params, onChange }) => {
         onValueChange={setRate}
         onBlur={onBlur}
       />
-      <ParamInput
+      <NumberInput
         label="Term"
         testId="term"
         suffix="years"
