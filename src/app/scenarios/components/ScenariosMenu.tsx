@@ -19,8 +19,11 @@ import { Scenario } from "@entities/scenarios";
 import React, { useState } from "react";
 import { DeleteScenarioDialog } from "./DeleteScenarioDialog";
 import { SaveScenarioDialog } from "./SaveScenarioDialog";
+import { Params } from "@entities/repayments";
+import { getDefaultScenarioName } from "@usecases/scenarios/name_scenario";
 
 type ScenariosMenuProps = {
+  currentParams: Params;
   scenarios: Scenario[];
   selectedScenario: Scenario | undefined;
   saveScenario: (name: string | undefined) => void;
@@ -29,6 +32,7 @@ type ScenariosMenuProps = {
 };
 
 export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
+  currentParams,
   scenarios,
   selectedScenario,
   saveScenario,
@@ -129,11 +133,14 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
         </div>
       </Flex>
 
-      <SaveScenarioDialog
-        show={showSaveDialog}
-        onClose={() => setShowSaveDialog(false)}
-        onSubmit={saveScenario}
-      />
+      {showSaveDialog && (
+        <SaveScenarioDialog
+          show={showSaveDialog}
+          defaultName={getDefaultScenarioName(currentParams)}
+          onClose={() => setShowSaveDialog(false)}
+          onSubmit={saveScenario}
+        />
+      )}
 
       <DeleteScenarioDialog
         show={showDeleteDialog}

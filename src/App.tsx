@@ -76,6 +76,7 @@ function App() {
       <p>Calculate repayments and interest for a mortgage.</p>
 
       <ScenariosMenu
+        currentParams={currentParams}
         scenarios={scenarios}
         selectedScenario={selectedScenario}
         saveScenario={saveScenario}

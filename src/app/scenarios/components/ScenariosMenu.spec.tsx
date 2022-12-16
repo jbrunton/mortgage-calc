@@ -1,3 +1,4 @@
+import { Params } from "@entities/repayments";
 import { Scenario } from "@entities/scenarios";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -5,6 +6,8 @@ import { IntlProvider } from "react-intl";
 import { ScenariosMenu } from "./ScenariosMenu";
 
 describe("ScenariosMenu", () => {
+  const currentParams: Params = { loan: 150_000, rate: 4, term: 20 };
+
   const myScenario: Scenario = {
     description: "My Scenario",
     params: { loan: 150_000, rate: 4, term: 20 },
@@ -29,6 +32,7 @@ describe("ScenariosMenu", () => {
     render(
       <IntlProvider locale="en">
         <ScenariosMenu
+          currentParams={currentParams}
           scenarios={scenarios}
           selectedScenario={selectedScenario}
           saveScenario={saveScenario}
@@ -79,10 +83,10 @@ describe("ScenariosMenu", () => {
     it("lets the user delete the scenario", async () => {
       const { user } = setup(myScenario);
 
-      // menu link
+      // open dialog
       await user.click(screen.getByText("Delete Scenario"));
 
-      // confirm dialog
+      // confirm delete
       await user.click(screen.getByText("Delete"));
 
       expect(deleteScenario).toHaveBeenCalled();
@@ -92,18 +96,19 @@ describe("ScenariosMenu", () => {
   describe("when no scenario is selected", () => {
     it("lets the user save the scenario", async () => {
       const { user } = setup();
+      const expectedScenarioName = "150k, 4%, 20yrs";
 
-      // menu link
+      // open dialog
       await user.click(screen.getByText("Save Scenario"));
-      await user.type(
-        screen.getByPlaceholderText("Scenario Name"),
-        "New Scenario"
+
+      expect(screen.getByPlaceholderText("Scenario Name")).toHaveValue(
+        expectedScenarioName
       );
 
-      // confirm dialog
+      // confirm save
       await user.click(screen.getByText("Save"));
 
-      expect(saveScenario).toHaveBeenCalledWith("New Scenario");
+      expect(saveScenario).toHaveBeenCalledWith(expectedScenarioName);
     });
   });
 });
