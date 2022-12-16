@@ -9,7 +9,12 @@ describe("SaveScenarioDialog", () => {
   const setup = () => {
     const user = userEvent.setup();
     render(
-      <SaveScenarioDialog show={true} onClose={onClose} onSubmit={onSubmit} />
+      <SaveScenarioDialog
+        show={true}
+        defaultName="Default Name"
+        onClose={onClose}
+        onSubmit={onSubmit}
+      />
     );
     return { user };
   };
@@ -25,11 +30,13 @@ describe("SaveScenarioDialog", () => {
 
   it("has a Submit button", async () => {
     const { user } = setup();
+    const scenarioNameInput = screen.getByPlaceholderText("Scenario Name");
 
-    await user.type(
-      screen.getByPlaceholderText("Scenario Name"),
-      "My Scenario"
-    );
+    expect(scenarioNameInput).toHaveValue("Default Name");
+
+    await user.clear(scenarioNameInput);
+    await user.type(scenarioNameInput, "My Scenario");
+
     await user.click(screen.getByText("Save"));
 
     expect(onClose).toHaveBeenCalled();

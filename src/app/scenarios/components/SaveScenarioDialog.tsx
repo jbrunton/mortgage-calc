@@ -4,16 +4,18 @@ import { Input } from "@chakra-ui/react";
 
 type SaveDialogProps = {
   show: boolean;
+  defaultName: string;
   onClose: () => void;
   onSubmit: (description: string) => void;
 };
 
 export const SaveScenarioDialog: React.FC<SaveDialogProps> = ({
   show,
+  defaultName,
   onClose,
   onSubmit,
 }) => {
-  const [newScenarioName, setNewScenarioName] = useState<string>("");
+  const [newScenarioName, setNewScenarioName] = useState<string>(defaultName);
   return (
     <ModalDialog
       title="Save Scenario"
