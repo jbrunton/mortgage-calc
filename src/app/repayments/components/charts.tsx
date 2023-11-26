@@ -43,12 +43,17 @@ const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
       tooltip: {
         mode: "index",
         intersect: false,
+        bodyAlign: "right",
         callbacks: {
           title(items) {
             const item = items[0];
             const year = Math.floor(item.dataIndex / 12) + 1;
             const month = (item.dataIndex % 12) + 1;
             return `Year ${year} month ${month}`;
+          },
+          label(ctx) {
+            //console.info(ctx);
+            return Math.round(ctx.raw as number).toLocaleString();
           },
         },
       },
