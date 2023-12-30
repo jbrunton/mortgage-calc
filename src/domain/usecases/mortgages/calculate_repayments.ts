@@ -1,14 +1,16 @@
-import { Params, Repayment } from "@entities/repayments";
+import { MortgageParams, Repayment } from "@entities/mortgages";
 
-export type RepaymentsSummary = {
-  params: Params;
+export type MortgageSummary = {
+  params: MortgageParams;
   repayments: Repayment[];
   monthlyAmount: number;
   totalInterest: number;
   totalRepayment: number;
 };
 
-export const calculateRepayments = (params: Params): RepaymentsSummary => {
+export const calculateRepayments = (
+  params: MortgageParams,
+): MortgageSummary => {
   const { monthlyAmount, monthlyRate } = calculateMonthlyRepayment(params);
 
   const { loan } = params;
@@ -49,7 +51,7 @@ export const calculateRepayments = (params: Params): RepaymentsSummary => {
   };
 };
 
-const calculateMonthlyRepayment = ({ loan, rate, term }: Params) => {
+const calculateMonthlyRepayment = ({ loan, rate, term }: MortgageParams) => {
   const monthlyRate = rate / 100 / 12;
   const ln = Math.pow(1 + monthlyRate, term * 12 - 1);
   const monthlyAmount = loan / ((1 - 1 / ln) / monthlyRate);

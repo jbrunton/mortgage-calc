@@ -1,9 +1,9 @@
-import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
+import { MortgageSummary } from "@usecases/mortgages/calculate_repayments";
 import { FormattedNumber } from "react-intl";
 import { Table, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 type SummaryTableProps = {
-  summary: RepaymentsSummary;
+  summary: MortgageSummary;
 };
 
 export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (

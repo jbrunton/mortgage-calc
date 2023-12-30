@@ -15,15 +15,15 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, PlusSquareIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { CurrencyAmount } from "@components/CurrencyAmount";
-import { Scenario } from "@entities/scenarios";
+import { Scenario, isMortgageScenario } from "@entities/scenarios";
 import React, { useState } from "react";
 import { DeleteScenarioDialog } from "./DeleteScenarioDialog";
 import { SaveScenarioDialog } from "./SaveScenarioDialog";
-import { Params } from "@entities/repayments";
 import { getDefaultScenarioName } from "@usecases/scenarios/name_scenario";
+import { InputParams } from "@entities/inputs";
 
 type ScenariosMenuProps = {
-  currentParams: Params;
+  currentParams: InputParams;
   scenarios: Scenario[];
   selectedScenario: Scenario | undefined;
   saveScenario: (name: string | undefined) => void;
@@ -77,17 +77,38 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                 <Heading size="xs">
                   <LinkOverlay href="#">{scenario.description}</LinkOverlay>
                 </Heading>
-                <Text fontSize="xs">
-                  Loan: <CurrencyAmount amount={scenario.params.loan} />{" "}
-                  &middot; Rate: {scenario.params.rate} &middot; Term:{" "}
-                  {scenario.params.term}
-                </Text>
-                <Text fontSize="xs">
-                  Monthly Repayment:{" "}
-                  <CurrencyAmount amount={scenario.summary.monthlyAmount} />{" "}
-                  &middot; Total Interest:{" "}
-                  <CurrencyAmount amount={scenario.summary.totalInterest} />
-                </Text>
+                {isMortgageScenario(scenario) ? (
+                  <>
+                    <Text fontSize="xs">
+                      Loan: <CurrencyAmount amount={scenario.params.loan} />{" "}
+                      &middot; Rate: {scenario.params.rate} &middot; Term:{" "}
+                      {scenario.params.term}
+                    </Text>
+                    <Text fontSize="xs">
+                      Monthly Repayment:{" "}
+                      <CurrencyAmount amount={scenario.summary.monthlyAmount} />{" "}
+                      &middot; Total Interest:{" "}
+                      <CurrencyAmount amount={scenario.summary.totalInterest} />
+                    </Text>
+                  </>
+                ) : (
+                  <>
+                    <Text fontSize="xs">
+                      Rent:{" "}
+                      <CurrencyAmount amount={scenario.params.monthlyRent} />{" "}
+                      &middot; Interst Rate: {scenario.params.interestRate}{" "}
+                      &middot; Term: {scenario.params.term}
+                    </Text>
+                    <Text fontSize="xs">
+                      Final Rent:{" "}
+                      <CurrencyAmount
+                        amount={scenario.summary.finalMonthlyRent}
+                      />{" "}
+                      &middot; Total Interest:{" "}
+                      <CurrencyAmount amount={scenario.summary.totalRent} />
+                    </Text>
+                  </>
+                )}
               </LinkBox>
             ))}
           </DrawerBody>

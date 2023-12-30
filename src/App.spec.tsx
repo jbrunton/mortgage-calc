@@ -2,9 +2,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
-jest.mock("@app/repayments/components/charts", () => ({
+jest.mock("@app/mortgages/components/charts", () => ({
   DebtChart: () => <div>DebtChart</div>,
   MonthlyRepaymentsChart: () => <div>MonthlyRepaymentsChart</div>,
+}));
+
+jest.mock("@app/rent/components/charts", () => ({
+  RentPaymentsChart: () => <div>RentPaymentsChart</div>,
+  CumulativeRentChart: () => <div>CumulativeRentChart</div>,
 }));
 
 describe("App", () => {

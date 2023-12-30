@@ -1,4 +1,4 @@
-import { Params } from "@entities/repayments";
+import { MortgageParams } from "@entities/mortgages";
 import { Scenario } from "@entities/scenarios";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -6,7 +6,7 @@ import { IntlProvider } from "react-intl";
 import { ScenariosMenu } from "./ScenariosMenu";
 
 describe("ScenariosMenu", () => {
-  const currentParams: Params = { loan: 150_000, rate: 4, term: 20 };
+  const currentParams: MortgageParams = { loan: 150_000, rate: 4, term: 20 };
 
   const myScenario: Scenario = {
     description: "My Scenario",
