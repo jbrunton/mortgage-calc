@@ -9,7 +9,7 @@ describe("CurrencyAmount", () => {
         <span data-testid="amount">
           <CurrencyAmount amount={amount} />
         </span>
-      </IntlProvider>
+      </IntlProvider>,
     );
 
   it("formats currency values", () => {

@@ -5,7 +5,7 @@ import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
 
 export const useSelectedScenarios = (
   currentParams: Params,
-  currentSummary: RepaymentsSummary | undefined
+  currentSummary: RepaymentsSummary | undefined,
 ) => {
   const [scenarios, setScenarios] = useState<Scenario[]>(() => {
     const scenarios = localStorage.getItem("scenarios");
@@ -37,7 +37,7 @@ export const useSelectedScenarios = (
 
   const deleteScenario = () => {
     const updatedScenarios = scenarios.filter(
-      (scenario) => scenario !== selectedScenario
+      (scenario) => scenario !== selectedScenario,
     );
 
     setScenarios(updatedScenarios);
