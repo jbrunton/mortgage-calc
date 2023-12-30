@@ -18,7 +18,7 @@ describe("ModalDialog", () => {
         onSubmit={onSubmit}
       >
         <p>Dialog Body</p>
-      </ModalDialog>
+      </ModalDialog>,
     );
     return { user };
   };

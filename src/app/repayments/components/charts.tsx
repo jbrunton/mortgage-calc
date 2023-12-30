@@ -24,7 +24,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend
+  Legend,
 );
 
 type RepaymentsChartProps = {

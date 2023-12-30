@@ -14,7 +14,7 @@ describe("SaveScenarioDialog", () => {
         defaultName="Default Name"
         onClose={onClose}
         onSubmit={onSubmit}
-      />
+      />,
     );
     return { user };
   };

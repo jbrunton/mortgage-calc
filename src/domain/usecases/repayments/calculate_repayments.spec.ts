@@ -80,7 +80,7 @@ describe("calculateRepayments", () => {
 
 const assertRepaymentsEqual = (
   actualRepayments: Repayment[],
-  expectedRepayments: Repayment[]
+  expectedRepayments: Repayment[],
 ) => {
   expect(actualRepayments.length).toEqual(expectedRepayments.length);
 

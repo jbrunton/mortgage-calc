@@ -39,7 +39,7 @@ describe("ScenariosMenu", () => {
           loadScenario={loadScenario}
           deleteScenario={deleteScenario}
         />
-      </IntlProvider>
+      </IntlProvider>,
     );
     return { user };
   };
@@ -61,7 +61,7 @@ describe("ScenariosMenu", () => {
     const scenario = screen.getByText("My Scenario").closest("div");
     expect(scenario).toHaveTextContent("Loan: 150,000 · Rate: 4 · Term: 20");
     expect(scenario).toHaveTextContent(
-      "Monthly Repayment: 911 · Total Interest: "
+      "Monthly Repayment: 911 · Total Interest: ",
     );
   });
 
@@ -102,7 +102,7 @@ describe("ScenariosMenu", () => {
       await user.click(screen.getByText("Save Scenario"));
 
       expect(screen.getByPlaceholderText("Scenario Name")).toHaveValue(
-        expectedScenarioName
+        expectedScenarioName,
       );
 
       // confirm save
