@@ -1,5 +1,3 @@
-import React from "react";
-import * as R from "ramda";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,11 +8,11 @@ import {
   Tooltip,
   Legend,
   Filler,
-  ChartOptions,
   ChartData,
+  ChartOptions,
 } from "chart.js";
+import React from "react";
 import { Line } from "react-chartjs-2";
-import { Repayment } from "@entities/repayments";
 
 ChartJS.register(
   CategoryScale,
@@ -27,12 +25,15 @@ ChartJS.register(
   Legend,
 );
 
-type RepaymentsChartProps = {
+type PaymentsChartProps = {
   title: string;
   data: ChartData<"line", number[]>;
 };
 
-const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
+export const PaymentsChart: React.FC<PaymentsChartProps> = ({
+  title,
+  data,
+}) => {
   const options: ChartOptions<"line"> = {
     maintainAspectRatio: false,
     plugins: {
@@ -88,53 +89,4 @@ const RepaymentsChart: React.FC<RepaymentsChartProps> = ({ title, data }) => {
       <Line options={options} data={data} />
     </div>
   );
-};
-
-export const MonthlyRepaymentsChart: React.FC<{ repayments: Repayment[] }> = ({
-  repayments,
-}) => {
-  const principalData = R.pluck("principal", repayments);
-  const interestData = R.pluck("interest", repayments);
-  const data = {
-    labels: R.pluck("month", repayments),
-    datasets: [
-      {
-        label: "Principal",
-        data: principalData,
-        fill: "origin",
-        pointRadius: 0,
-        backgroundColor: "rgba(63, 167, 214, 0.5)",
-        borderColor: "rgb(63, 167, 214)",
-      },
-      {
-        label: "Interest",
-        data: interestData,
-        fill: 0,
-        pointRadius: 0,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        borderColor: "rgb(255, 99, 132)",
-      },
-    ],
-  };
-  return <RepaymentsChart data={data} title="Monthly Repayments" />;
-};
-
-export const DebtChart: React.FC<{ repayments: Repayment[] }> = ({
-  repayments,
-}) => {
-  const principalData = R.pluck("remainingPrincipal", repayments);
-  const data = {
-    labels: R.pluck("month", repayments),
-    datasets: [
-      {
-        label: "Remaining Debt",
-        data: principalData,
-        fill: "origin",
-        pointRadius: 0,
-        backgroundColor: "rgba(63, 167, 214, 0.5)",
-        borderColor: "rgb(63, 167, 214)",
-      },
-    ],
-  };
-  return <RepaymentsChart data={data} title="Debt by Month" />;
 };

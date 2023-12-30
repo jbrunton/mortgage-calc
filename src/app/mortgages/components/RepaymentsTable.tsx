@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
-import { Repayment } from "@entities/repayments";
+import { Repayment } from "@entities/mortgages";
 import { CurrencyAmount } from "@components/CurrencyAmount";
 
 type RepaymentsTableProps = {

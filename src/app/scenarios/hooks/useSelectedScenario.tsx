@@ -1,12 +1,23 @@
 import { useState } from "react";
-import { Params } from "@entities/repayments";
-import { Scenario } from "@entities/scenarios";
-import { RepaymentsSummary } from "@usecases/repayments/calculate_repayments";
+import { MortgageScenario, RentScenario, Scenario } from "@entities/scenarios";
+import { isMortgageParams } from "@entities/inputs";
 
-export const useSelectedScenarios = (
-  currentParams: Params,
-  currentSummary: RepaymentsSummary | undefined,
-) => {
+type MortgageScenarioDefinition = Omit<
+  MortgageScenario,
+  "description" | "summary"
+> &
+  Partial<Pick<MortgageScenario, "summary">>;
+type RentScenatioDefinition = Omit<RentScenario, "description" | "summary"> &
+  Partial<Pick<RentScenario, "summary">>;
+type ScenarioDefinition = MortgageScenarioDefinition | RentScenatioDefinition;
+
+const isMortgageScenarioDefinition = (
+  definition: ScenarioDefinition,
+): definition is MortgageScenarioDefinition => {
+  return isMortgageParams(definition.params);
+};
+
+export const useSelectedScenarios = (currentScenario?: ScenarioDefinition) => {
   const [scenarios, setScenarios] = useState<Scenario[]>(() => {
     const scenarios = localStorage.getItem("scenarios");
     return scenarios ? JSON.parse(scenarios) : [];
@@ -15,24 +26,45 @@ export const useSelectedScenarios = (
   const [selectedScenario, setSelectedScenario] = useState<Scenario>();
 
   const saveScenario = (description: string | undefined) => {
-    if (!currentSummary) return;
+    if (!currentScenario?.summary) {
+      return;
+    }
 
-    const params = currentParams;
-    const { monthlyAmount, totalInterest } = currentSummary;
-    const scenario: Scenario = {
-      params,
-      summary: { monthlyAmount, totalInterest },
-      description:
-        description ??
-        `Loan: ${params.loan}, Rate: ${params.rate}, Term: ${params.term}`,
-    };
+    if (isMortgageScenarioDefinition(currentScenario)) {
+      const { monthlyAmount, totalInterest } = currentScenario.summary;
+      const params = currentScenario.params;
 
-    const updatedScenarios = [...scenarios, scenario];
+      const scenario: MortgageScenario = {
+        params,
+        summary: { monthlyAmount, totalInterest },
+        description:
+          description ??
+          `Loan: ${params.loan}, Rate: ${params.rate}, Term: ${params.term}`,
+      };
 
-    setScenarios(updatedScenarios);
-    localStorage.setItem("scenarios", JSON.stringify(updatedScenarios));
+      const updatedScenarios = [...scenarios, scenario];
 
-    setSelectedScenario(scenario);
+      setScenarios(updatedScenarios);
+      localStorage.setItem("scenarios", JSON.stringify(updatedScenarios));
+      setSelectedScenario(scenario);
+    } else {
+      const { totalRent, finalMonthlyRent } = currentScenario.summary;
+      const params = currentScenario.params;
+
+      const scenario: RentScenario = {
+        params,
+        summary: { totalRent, finalMonthlyRent },
+        description:
+          description ??
+          `Monthly Rent: ${params.monthlyRent}, Interest Rate: ${params.interestRate}, Term: ${params.term}`,
+      };
+
+      const updatedScenarios = [...scenarios, scenario];
+
+      setScenarios(updatedScenarios);
+      localStorage.setItem("scenarios", JSON.stringify(updatedScenarios));
+      setSelectedScenario(scenario);
+    }
   };
 
   const deleteScenario = () => {

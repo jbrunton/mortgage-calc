@@ -1,4 +1,4 @@
-export type Params = {
+export type MortgageParams = {
   loan: number;
   rate: number;
   term: number;

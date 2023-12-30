@@ -1,8 +1,8 @@
-import { Repayment } from "@entities/repayments";
+import { MortgageParams, Repayment } from "@entities/mortgages";
 import { calculateRepayments } from "./calculate_repayments";
 
 describe("calculateRepayments", () => {
-  const params = { loan: 1000, rate: 4, term: 2 };
+  const params: MortgageParams = { loan: 1000, rate: 4, term: 2 };
 
   it("returns summary statistics", () => {
     const { totalInterest, monthlyAmount } = calculateRepayments(params);

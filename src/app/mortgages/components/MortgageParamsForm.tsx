@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { FormControl } from "@chakra-ui/react";
-import { Params } from "@entities/repayments";
+import { MortgageParams } from "@entities/mortgages";
 import { NumberInput } from "../../../components/NumberInput";
 
-type InputsFormProps = {
-  params: Params;
-  onChange: (params: Params) => void;
+type MortgageParamsFormProps = {
+  params: MortgageParams;
+  onChange: (params: MortgageParams) => void;
 };
 
-export const InputsForm: React.FC<InputsFormProps> = ({ params, onChange }) => {
+export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
+  params,
+  onChange,
+}) => {
   const [loan, setLoan] = useState<number>(params.loan);
   const [rate, setRate] = useState<number>(params.rate);
   const [term, setTerm] = useState<number>(params.term);
