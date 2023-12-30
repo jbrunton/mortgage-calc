@@ -26,7 +26,7 @@ describe("App", () => {
     const rateInput = screen.getByTestId("rate");
     await user.type(rateInput, "3", {
       initialSelectionStart: 0,
-      initialSelectionEnd: 1,
+      initialSelectionEnd: 3,
     });
 
     const termInput = screen.getByTestId("term");

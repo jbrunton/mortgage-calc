@@ -26,16 +26,16 @@ import { isMortgageScenario } from "@entities/scenarios";
 function App() {
   const [mortgageSummary, setMortgageSummary] = useState<MortgageSummary>();
   const [mortgageParams, setMortgageParams] = useState<MortgageParams>({
-    loan: 100_000,
-    rate: 4,
-    term: 20,
+    loan: 400_000,
+    rate: 4.5,
+    term: 25,
   });
 
   const [rentSummary, setRentSummary] = useState<RentSummary>();
   const [rentParams, setRentParams] = useState<RentParams>({
-    monthlyRent: 1000,
-    interestRate: 3,
-    term: 20,
+    monthlyRent: 2000,
+    interestRate: 2,
+    term: 25,
   });
 
   const [tabIndex, setTabIndex] = useState(0);
