@@ -11,19 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run lint
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm run lint
 
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
       - run: npm run test
 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
       - run: npm run build
