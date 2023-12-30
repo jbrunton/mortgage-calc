@@ -8,8 +8,7 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { IntlProvider } from "react-intl";
-import { ChakraProvider } from "@chakra-ui/react";
+import { useNavigate } from "@tanstack/react-router";
 import { ScenariosMenu } from "@app/scenarios/components/ScenariosMenu";
 import { MortgageParams } from "@entities/mortgages";
 import {
@@ -22,23 +21,60 @@ import { RentPage } from "@app/rent/pages/RentPage";
 import { RentSummary, calculateRent } from "@usecases/rent/calculate_rent";
 import { RentParams } from "@entities/rent";
 import { isMortgageScenario } from "@entities/scenarios";
+import { IndexTabEnum, indexRoute } from "./router";
 
 function App() {
+  const search = indexRoute.useSearch();
+  const navigate = useNavigate({ from: indexRoute.id });
+
+  const mortgageParams: MortgageParams = {
+    loan: search.mortgageLoan,
+    rate: search.mortgageRate,
+    term: search.mortgageTerm,
+  };
+
+  const setMortgageParams = (params: MortgageParams) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        mortgageLoan: params.loan,
+        mortgageRate: params.rate,
+        mortgageTerm: params.term,
+      }),
+    });
+  };
+
+  const rentParams: RentParams = {
+    monthlyRent: search.rent,
+    interestRate: search.rentIncrease,
+    term: search.rentTerm,
+  };
+
+  const setRentParams = (params: RentParams) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        rent: params.monthlyRent,
+        rentIncrease: params.interestRate,
+        rentTerm: params.term,
+      }),
+    });
+  };
+
   const [mortgageSummary, setMortgageSummary] = useState<MortgageSummary>();
-  const [mortgageParams, setMortgageParams] = useState<MortgageParams>({
-    loan: 400_000,
-    rate: 4.5,
-    term: 25,
-  });
-
   const [rentSummary, setRentSummary] = useState<RentSummary>();
-  const [rentParams, setRentParams] = useState<RentParams>({
-    monthlyRent: 2000,
-    interestRate: 2,
-    term: 25,
-  });
 
-  const [tabIndex, setTabIndex] = useState(0);
+  //const [tabIndex, setTabIndex] = useState(0);
+  const tabs = [IndexTabEnum.enum.mortgage, IndexTabEnum.Enum.rent];
+  const tabIndex = tabs.indexOf(search.tab);
+  const setTabIndex = (index: number) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        tab: tabs[index],
+      }),
+    });
+  };
 
   const {
     selectedScenario,
@@ -92,7 +128,7 @@ function App() {
 
   const currentParams = tabIndex === 0 ? mortgageParams : rentParams;
 
-  const container = (
+  return (
     <Container maxWidth="1200px">
       <Heading>Mortgage Calculator</Heading>
 
@@ -129,12 +165,6 @@ function App() {
         </TabPanels>
       </Tabs>
     </Container>
-  );
-
-  return (
-    <IntlProvider locale={"en"}>
-      <ChakraProvider>{container}</ChakraProvider>
-    </IntlProvider>
   );
 }
 
