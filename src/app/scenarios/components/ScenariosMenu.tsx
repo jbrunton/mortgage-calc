@@ -96,7 +96,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                     <Text fontSize="xs">
                       Rent:{" "}
                       <CurrencyAmount amount={scenario.params.monthlyRent} />{" "}
-                      &middot; Interst Rate: {scenario.params.interestRate}{" "}
+                      &middot; Interest Rate: {scenario.params.interestRate}{" "}
                       &middot; Term: {scenario.params.term}
                     </Text>
                     <Text fontSize="xs">
@@ -104,7 +104,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                       <CurrencyAmount
                         amount={scenario.summary.finalMonthlyRent}
                       />{" "}
-                      &middot; Total Interest:{" "}
+                      &middot; Total Rent:{" "}
                       <CurrencyAmount amount={scenario.summary.totalRent} />
                     </Text>
                   </>
