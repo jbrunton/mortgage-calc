@@ -50,7 +50,7 @@ export const RentPage: FC<RentPageProps> = ({
       </SimpleGrid>
 
       {summary && (
-        <SimpleGrid minChildWidth="20px" mt="24px" spacing="24px">
+        <SimpleGrid minChildWidth="320px" mt="24px" spacing="24px">
           <RentPaymentsChart payments={summary.payments} />
           <CumulativeRentChart payments={summary.payments} />
         </SimpleGrid>
