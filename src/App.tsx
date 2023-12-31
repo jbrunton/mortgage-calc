@@ -42,7 +42,6 @@ function App() {
           mortgageRate: params.rate,
           mortgageTerm: params.term,
         };
-        console.info("setMortgageParams", newParams);
         return newParams;
       },
     });
@@ -68,6 +67,14 @@ function App() {
   const [mortgageSummary, setMortgageSummary] = useState<MortgageSummary>();
   const [rentSummary, setRentSummary] = useState<RentSummary>();
 
+  const {
+    selectedScenario,
+    scenarios,
+    saveScenario,
+    loadScenario,
+    deleteScenario,
+  } = useSelectedScenarios();
+
   const tabs = [IndexTabEnum.enum.mortgage, IndexTabEnum.Enum.rent];
   const tabIndex = tabs.indexOf(search.tab);
   const setTabIndex = (index: number) => {
@@ -78,18 +85,6 @@ function App() {
       }),
     });
   };
-
-  const {
-    selectedScenario,
-    scenarios,
-    saveScenario,
-    loadScenario,
-    deleteScenario,
-  } = useSelectedScenarios(
-    tabIndex === 0
-      ? { params: mortgageParams, summary: mortgageSummary }
-      : { params: rentParams, summary: rentSummary },
-  );
 
   const onMortgageParamsChange = (params: MortgageParams) => {
     setMortgageParams(params);
@@ -116,9 +111,6 @@ function App() {
 
   useEffect(() => {
     if (selectedScenario) {
-      console.info(selectedScenario, {
-        isMortgage: isMortgageScenario(selectedScenario),
-      });
       if (isMortgageScenario(selectedScenario)) {
         setMortgageParams(selectedScenario.params);
         setTabIndex(0);
@@ -130,6 +122,10 @@ function App() {
   }, [selectedScenario]);
 
   const currentParams = tabIndex === 0 ? mortgageParams : rentParams;
+  const currentScenario =
+    tabIndex === 0
+      ? { params: mortgageParams, summary: mortgageSummary }
+      : { params: rentParams, summary: rentSummary };
 
   return (
     <Container maxWidth="1200px">
@@ -139,12 +135,20 @@ function App() {
         currentParams={currentParams}
         scenarios={scenarios}
         selectedScenario={selectedScenario}
-        saveScenario={saveScenario}
+        saveScenario={(description) =>
+          saveScenario(currentScenario, description)
+        }
         loadScenario={loadScenario}
         deleteScenario={deleteScenario}
       />
 
-      <Tabs onChange={setTabIndex} index={tabIndex}>
+      <Tabs
+        onChange={(index) => {
+          setTabIndex(index);
+          loadScenario(undefined);
+        }}
+        index={tabIndex}
+      >
         <TabList>
           <Tab>Mortgage</Tab>
           <Tab>Rent</Tab>

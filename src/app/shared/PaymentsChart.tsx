@@ -54,7 +54,6 @@ export const PaymentsChart: React.FC<PaymentsChartProps> = ({
             return `Year ${year} month ${month}`;
           },
           label(ctx) {
-            //console.info(ctx);
             return Math.round(ctx.raw as number).toLocaleString();
           },
         },
