@@ -49,7 +49,7 @@ export const MortgagePage: FC<MortgagePageProps> = ({
       </SimpleGrid>
 
       {summary && (
-        <SimpleGrid minChildWidth="380px" mt="24px" spacing="24px">
+        <SimpleGrid minChildWidth="320px" mt="24px" spacing="24px">
           <MonthlyRepaymentsChart repayments={summary.repayments} />
           <DebtChart repayments={summary.repayments} />
         </SimpleGrid>
