@@ -6,6 +6,7 @@ import {
   Route,
   createHashHistory,
   Outlet,
+  RouterHistory,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
@@ -43,10 +44,13 @@ export type IndexSearch = z.infer<typeof indexSearchSchema>;
 
 const routeTree = rootRoute.addChildren([indexRoute]);
 
-export const router = new Router({
-  routeTree,
-  history: createHashHistory(),
-});
+export const buildRouter = (history: RouterHistory) =>
+  new Router({
+    routeTree,
+    history,
+  });
+
+export const router = buildRouter(createHashHistory());
 
 declare module "@tanstack/react-router" {
   interface Register {

@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { MortgageParams } from "@entities/mortgages";
 import { Scenario } from "@entities/scenarios";
 import { render, screen } from "@testing-library/react";
@@ -23,9 +24,9 @@ describe("ScenariosMenu", () => {
     },
   ];
 
-  const saveScenario = jest.fn();
-  const loadScenario = jest.fn();
-  const deleteScenario = jest.fn();
+  const saveScenario = vi.fn();
+  const loadScenario = vi.fn();
+  const deleteScenario = vi.fn();
 
   const setup = (selectedScenario?: Scenario) => {
     const user = userEvent.setup();

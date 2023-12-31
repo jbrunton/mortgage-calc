@@ -21,7 +21,8 @@
       "@usecases/*": ["src/domain/usecases/*"],
       "@app/*": ["src/app/*"],
       "@components/*": ["src/components/*"],
-    }
+    },
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["src", "test"],
   "references": [{ "path": "./tsconfig.node.json" }]
