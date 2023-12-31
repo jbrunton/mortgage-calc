@@ -44,13 +44,13 @@ export const RentPage: FC<RentPageProps> = ({
         Calculate amount spent on rent
       </Heading>
 
-      <SimpleGrid columns={2}>
+      <SimpleGrid minChildWidth="320px" spacing="24px">
         <RentParamsForm params={params} onChange={onParamsChange} />
         {summary && <SummaryTable summary={summary} />}
       </SimpleGrid>
 
       {summary && (
-        <SimpleGrid columns={2} mt="24px">
+        <SimpleGrid minChildWidth="380px" mt="24px" spacing="24px">
           <RentPaymentsChart payments={summary.payments} />
           <CumulativeRentChart payments={summary.payments} />
         </SimpleGrid>
