@@ -17,7 +17,7 @@ const isMortgageScenarioDefinition = (
   return isMortgageParams(definition.params);
 };
 
-export const useSelectedScenarios = (currentScenario?: ScenarioDefinition) => {
+export const useSelectedScenarios = () => {
   const [scenarios, setScenarios] = useState<Scenario[]>(() => {
     const scenarios = localStorage.getItem("scenarios");
     return scenarios ? JSON.parse(scenarios) : [];
@@ -25,7 +25,10 @@ export const useSelectedScenarios = (currentScenario?: ScenarioDefinition) => {
 
   const [selectedScenario, setSelectedScenario] = useState<Scenario>();
 
-  const saveScenario = (description: string | undefined) => {
+  const saveScenario = (
+    currentScenario: ScenarioDefinition,
+    description: string | undefined,
+  ) => {
     if (!currentScenario?.summary) {
       return;
     }

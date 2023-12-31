@@ -96,7 +96,7 @@ describe("ScenariosMenu", () => {
   describe("when no scenario is selected", () => {
     it("lets the user save the scenario", async () => {
       const { user } = setup();
-      const expectedScenarioName = "150k, 4%, 20yrs";
+      const expectedScenarioName = "Mortgage: 150k, 4%, 20yrs";
 
       // open dialog
       await user.click(screen.getByText("Save Scenario"));
