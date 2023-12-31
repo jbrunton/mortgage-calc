@@ -1,10 +1,11 @@
+import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { ModalDialog } from "./ModalDialog";
 import { render, screen, waitFor } from "@testing-library/react";
 
 describe("ModalDialog", () => {
-  const onClose = jest.fn();
-  const onSubmit = jest.fn();
+  const onClose = vi.fn();
+  const onSubmit = vi.fn();
 
   const title = "My Dialog";
 

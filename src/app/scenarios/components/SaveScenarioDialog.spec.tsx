@@ -1,10 +1,11 @@
+import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SaveScenarioDialog } from "./SaveScenarioDialog";
 
 describe("SaveScenarioDialog", () => {
-  const onSubmit = jest.fn();
-  const onClose = jest.fn();
+  const onSubmit = vi.fn();
+  const onClose = vi.fn();
 
   const setup = () => {
     const user = userEvent.setup();
