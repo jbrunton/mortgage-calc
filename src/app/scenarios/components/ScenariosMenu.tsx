@@ -9,9 +9,8 @@ import {
   LinkOverlay,
   Heading,
   Text,
-  Flex,
-  Spacer,
   useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import { DeleteIcon, PlusSquareIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { CurrencyAmount } from "@components/CurrencyAmount";
@@ -115,18 +114,11 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
         </DrawerContent>
       </Drawer>
 
-      <Flex minWidth="max-content" mb="8px">
-        <div>
-          {selectedScenario && (
-            <Heading size="lg">
-              Scenario: {selectedScenario.description}
-            </Heading>
-          )}
-        </div>
-
-        <Spacer />
-
-        <div>
+      <Stack direction={["column", "row"]} spacing="24px">
+        {selectedScenario && (
+          <Heading size="lg">Scenario: {selectedScenario.description}</Heading>
+        )}
+        <div style={{ marginLeft: "auto" }}>
           {selectedScenario ? (
             <Button
               variant="ghost"
@@ -152,7 +144,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
             Scenarios
           </Button>
         </div>
-      </Flex>
+      </Stack>
 
       {showSaveDialog && (
         <SaveScenarioDialog
