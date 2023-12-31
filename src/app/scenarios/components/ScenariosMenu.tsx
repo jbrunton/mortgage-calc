@@ -11,6 +11,7 @@ import {
   Text,
   useDisclosure,
   Stack,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import { DeleteIcon, PlusSquareIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { CurrencyAmount } from "@components/CurrencyAmount";
@@ -56,6 +57,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
       >
         <DrawerOverlay />
         <DrawerContent>
+          <DrawerCloseButton />
           <DrawerHeader>Scenarios</DrawerHeader>
           <DrawerBody>
             {scenarios.map((scenario, index) => (
@@ -74,7 +76,9 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                 _hover={{ backgroundColor: "gray.100" }}
               >
                 <Heading size="xs">
-                  <LinkOverlay href="#">{scenario.description}</LinkOverlay>
+                  <LinkOverlay style={{ cursor: "pointer" }}>
+                    {scenario.description}
+                  </LinkOverlay>
                 </Heading>
                 {isMortgageScenario(scenario) ? (
                   <>

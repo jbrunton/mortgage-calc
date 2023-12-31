@@ -35,12 +35,16 @@ function App() {
 
   const setMortgageParams = (params: MortgageParams) => {
     navigate({
-      search: (prev) => ({
-        ...prev,
-        mortgageLoan: params.loan,
-        mortgageRate: params.rate,
-        mortgageTerm: params.term,
-      }),
+      search: (prev) => {
+        const newParams = {
+          ...prev,
+          mortgageLoan: params.loan,
+          mortgageRate: params.rate,
+          mortgageTerm: params.term,
+        };
+        console.info("setMortgageParams", newParams);
+        return newParams;
+      },
     });
   };
 
@@ -64,7 +68,6 @@ function App() {
   const [mortgageSummary, setMortgageSummary] = useState<MortgageSummary>();
   const [rentSummary, setRentSummary] = useState<RentSummary>();
 
-  //const [tabIndex, setTabIndex] = useState(0);
   const tabs = [IndexTabEnum.enum.mortgage, IndexTabEnum.Enum.rent];
   const tabIndex = tabs.indexOf(search.tab);
   const setTabIndex = (index: number) => {

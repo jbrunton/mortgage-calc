@@ -36,7 +36,12 @@ export const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
   component: () => <App />,
-  validateSearch: indexSearchSchema,
+  validateSearch: (params) => {
+    console.info("search params", params);
+    const result = indexSearchSchema.parse(params);
+    console.info("search result", result);
+    return result;
+  },
 });
 
 export type IndexSearch = z.infer<typeof indexSearchSchema>;
