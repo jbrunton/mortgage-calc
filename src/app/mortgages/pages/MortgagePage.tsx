@@ -43,13 +43,13 @@ export const MortgagePage: FC<MortgagePageProps> = ({
         Calculate repayments and interest for a mortgage
       </Heading>
 
-      <SimpleGrid columns={2}>
+      <SimpleGrid minChildWidth="320px" spacing="24px">
         <MortgageParamsForm params={params} onChange={onParamsChange} />
         {summary && <SummaryTable summary={summary} />}
       </SimpleGrid>
 
       {summary && (
-        <SimpleGrid columns={2} mt="24px">
+        <SimpleGrid minChildWidth="320px" mt="24px" spacing="24px">
           <MonthlyRepaymentsChart repayments={summary.repayments} />
           <DebtChart repayments={summary.repayments} />
         </SimpleGrid>

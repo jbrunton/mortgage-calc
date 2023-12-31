@@ -1,3 +1,4 @@
+import { AspectRatio } from "@chakra-ui/react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -78,15 +79,8 @@ export const PaymentsChart: React.FC<PaymentsChartProps> = ({
     },
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "33vw",
-        maxHeight: "400px",
-        minHeight: "200px",
-      }}
-    >
+    <AspectRatio ratio={1.2} width={"100%"}>
       <Line options={options} data={data} />
-    </div>
+    </AspectRatio>
   );
 };

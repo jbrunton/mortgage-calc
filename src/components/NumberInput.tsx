@@ -2,7 +2,6 @@ import React from "react";
 import {
   FormLabel,
   Flex,
-  Spacer,
   InputGroup,
   InputRightAddon,
   Input,
@@ -34,7 +33,7 @@ export const NumberInput: React.FC<InputProps> = ({
   return (
     <Flex mb={8}>
       <FormLabel flex={1}>{label}</FormLabel>
-      <InputGroup flex={1}>
+      <InputGroup flex={2}>
         <Input
           data-testid={testId}
           placeholder="mysite"
@@ -45,7 +44,6 @@ export const NumberInput: React.FC<InputProps> = ({
         />
         {suffix && <InputRightAddon children={suffix} />}
       </InputGroup>
-      <Spacer flex={1} />
     </Flex>
   );
 };

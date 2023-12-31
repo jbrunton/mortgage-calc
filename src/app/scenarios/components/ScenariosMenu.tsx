@@ -9,9 +9,9 @@ import {
   LinkOverlay,
   Heading,
   Text,
-  Flex,
-  Spacer,
   useDisclosure,
+  Stack,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import { DeleteIcon, PlusSquareIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { CurrencyAmount } from "@components/CurrencyAmount";
@@ -57,6 +57,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
       >
         <DrawerOverlay />
         <DrawerContent>
+          <DrawerCloseButton />
           <DrawerHeader>Scenarios</DrawerHeader>
           <DrawerBody>
             {scenarios.map((scenario, index) => (
@@ -75,7 +76,9 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
                 _hover={{ backgroundColor: "gray.100" }}
               >
                 <Heading size="xs">
-                  <LinkOverlay href="#">{scenario.description}</LinkOverlay>
+                  <LinkOverlay style={{ cursor: "pointer" }}>
+                    {scenario.description}
+                  </LinkOverlay>
                 </Heading>
                 {isMortgageScenario(scenario) ? (
                   <>
@@ -115,18 +118,11 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
         </DrawerContent>
       </Drawer>
 
-      <Flex minWidth="max-content" mb="8px">
-        <div>
-          {selectedScenario && (
-            <Heading size="lg">
-              Scenario: {selectedScenario.description}
-            </Heading>
-          )}
-        </div>
-
-        <Spacer />
-
-        <div>
+      <Stack direction={["column", "row"]} spacing="24px">
+        {selectedScenario && (
+          <Heading size="lg">Scenario: {selectedScenario.description}</Heading>
+        )}
+        <div style={{ marginLeft: "auto" }}>
           {selectedScenario ? (
             <Button
               variant="ghost"
@@ -152,7 +148,7 @@ export const ScenariosMenu: React.FC<ScenariosMenuProps> = ({
             Scenarios
           </Button>
         </div>
-      </Flex>
+      </Stack>
 
       {showSaveDialog && (
         <SaveScenarioDialog
