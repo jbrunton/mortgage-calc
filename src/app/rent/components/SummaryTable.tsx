@@ -20,7 +20,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
         <Td></Td>
       </Tr>
       <Tr>
-        <Th p="0">Total Repayments</Th>
+        <Th p="0">Total Payments</Th>
         <Td data-testid="total-payments">
           <FormattedNumber
             value={summary.totalRent}
