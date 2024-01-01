@@ -77,7 +77,7 @@ const stampDutyBands = [
     rate: 0.1,
   },
   {
-    rate: 0.2,
+    rate: 0.12,
   },
 ];
 
