@@ -1,5 +1,5 @@
 import { FormattedNumber } from "react-intl";
-import { Table, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { Table, Tbody, Tr, Th, Td, Thead } from "@chakra-ui/react";
 import { MortgageSummary } from "@entities/mortgages";
 
 type SummaryTableProps = {
@@ -9,6 +9,11 @@ type SummaryTableProps = {
 export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => {
   return (
     <Table>
+      <Thead>
+        <Tr>
+          <Th p="0" />
+        </Tr>
+      </Thead>
       <Tbody>
         <Tr>
           <Th p="0">Monthly Repayment</Th>
@@ -38,7 +43,14 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => {
               maximumFractionDigits={0}
             />
           </Td>
-          <Td />
+          <Td>
+            (
+            <FormattedNumber
+              value={(summary.totalInterest / summary.params.loan) * 100}
+              maximumFractionDigits={0}
+            />
+            % of loan value)
+          </Td>
         </Tr>
         <Tr>
           <Th p="0">Stamp Duty</Th>
@@ -51,7 +63,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => {
           <Td />
         </Tr>
         <Tr>
-          <Th p="0">Total Cost</Th>
+          <Th p="0">Total Cost (incl. SDLT)</Th>
           <Td data-testid="total-cost">
             <FormattedNumber
               value={summary.totalCost}
