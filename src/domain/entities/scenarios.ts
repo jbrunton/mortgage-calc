@@ -1,7 +1,5 @@
-import { MortgageSummary } from "@usecases/mortgages/calculate_repayments";
-import { MortgageParams } from "./mortgages";
-import { RentParams } from "./rent";
-import { RentSummary } from "@usecases/rent/calculate_rent";
+import { MortgageParams, MortgageSummary } from "./mortgages";
+import { RentParams, RentSummary } from "./rent";
 import { isMortgageParams } from "./inputs";
 
 export type MortgageScenario = {

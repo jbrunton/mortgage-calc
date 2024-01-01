@@ -9,3 +9,10 @@ export type RentPayment = {
   amount: number;
   cumulativeRent: number;
 };
+
+export type RentSummary = {
+  params: RentParams;
+  payments: RentPayment[];
+  finalMonthlyRent: number;
+  totalRent: number;
+};

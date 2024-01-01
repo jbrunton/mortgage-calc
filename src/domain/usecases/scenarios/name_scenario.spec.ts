@@ -4,8 +4,16 @@ import { RentParams } from "@entities/rent";
 
 describe("getDefaultScenarioName", () => {
   it("generates a default name for mortgages", () => {
-    const params: MortgageParams = { loan: 150_000, rate: 4, term: 20 };
-    expect(getDefaultScenarioName(params)).toEqual("Mortgage: 150k, 4%, 20yrs");
+    const params: MortgageParams = {
+      loan: 150_000,
+      rate: 4,
+      term: 20,
+      propertyValue: 500_000,
+      firstTimeBuyer: true,
+    };
+    expect(getDefaultScenarioName(params)).toEqual(
+      "Mortgage: 150k, 4%, 20yrs, 500k property, first home",
+    );
   });
 
   it("generates a default name for rent", () => {

@@ -7,11 +7,17 @@ import { IntlProvider } from "react-intl";
 import { ScenariosMenu } from "./ScenariosMenu";
 
 describe("ScenariosMenu", () => {
-  const currentParams: MortgageParams = { loan: 150_000, rate: 4, term: 20 };
+  const currentParams: MortgageParams = {
+    loan: 150_000,
+    rate: 4,
+    term: 20,
+    propertyValue: 500_000,
+    firstTimeBuyer: false,
+  };
 
   const myScenario: Scenario = {
     description: "My Scenario",
-    params: { loan: 150_000, rate: 4, term: 20 },
+    params: currentParams,
     summary: { totalInterest: 67_838, monthlyAmount: 911 },
   };
 
@@ -19,7 +25,7 @@ describe("ScenariosMenu", () => {
     myScenario,
     {
       description: "Another Scenario",
-      params: { loan: 150_000, rate: 4, term: 25 },
+      params: { ...currentParams, term: 25 },
       summary: { totalInterest: 87_196, monthlyAmount: 793 },
     },
   ];
@@ -97,7 +103,8 @@ describe("ScenariosMenu", () => {
   describe("when no scenario is selected", () => {
     it("lets the user save the scenario", async () => {
       const { user } = setup();
-      const expectedScenarioName = "Mortgage: 150k, 4%, 20yrs";
+      const expectedScenarioName =
+        "Mortgage: 150k, 4%, 20yrs, 500k property, next home";
 
       // open dialog
       await user.click(screen.getByText("Save Scenario"));
