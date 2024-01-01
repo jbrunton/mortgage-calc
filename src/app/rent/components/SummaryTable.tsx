@@ -1,5 +1,5 @@
 import { FormattedNumber } from "react-intl";
-import { Table, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { Table, Tbody, Tr, Th, Td, Thead } from "@chakra-ui/react";
 import { RentSummary } from "@entities/rent";
 
 type SummaryTableProps = {
@@ -8,6 +8,12 @@ type SummaryTableProps = {
 
 export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
   <Table>
+    <Thead>
+      <Tr>
+        <Th p="0" />
+      </Tr>
+    </Thead>
+
     <Tbody>
       <Tr>
         <Th p="0">Final Monthly Rent</Th>
