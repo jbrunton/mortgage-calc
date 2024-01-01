@@ -25,12 +25,12 @@ export const IndexTabEnum = z.enum(["mortgage", "rent"]);
 
 const indexSearchSchema = z.object({
   tab: IndexTabEnum.catch(IndexTabEnum.enum.mortgage),
-  mortgageLoan: z.number().catch(400_000),
+  mortgageLoan: z.number().catch(300_000),
   mortgageRate: z.number().catch(4.5),
-  mortgageTerm: z.number().catch(25),
-  propertyValue: z.number().catch(800_000),
+  mortgageTerm: z.number().catch(20),
+  propertyValue: z.number().catch(600_000),
   firstTimeBuyer: z.boolean().catch(false),
-  rent: z.number().catch(2_000),
+  rent: z.number().catch(1_500),
   rentIncrease: z.number().catch(2),
   rentTerm: z.number().catch(25),
 });
