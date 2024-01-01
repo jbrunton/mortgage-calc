@@ -12,6 +12,7 @@
     "format:check": "prettier --check src",
     "precommit": "lint-staged",
     "test": "vitest",
+    "test:mutate": "stryker run",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -30,6 +31,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@stryker-mutator/api": "^8.0.0",
+    "@stryker-mutator/core": "^8.0.0",
+    "@stryker-mutator/vitest-runner": "^8.0.0",
     "@tanstack/router-devtools": "^1.0.6",
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
