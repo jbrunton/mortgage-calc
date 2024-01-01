@@ -10,7 +10,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => (
   <Table>
     <Thead>
       <Tr>
-        <Th p="0" />
+        <Th colSpan={3} p="0" />
       </Tr>
     </Thead>
 
