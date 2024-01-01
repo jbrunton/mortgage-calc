@@ -28,6 +28,8 @@ const indexSearchSchema = z.object({
   mortgageLoan: z.number().catch(400_000),
   mortgageRate: z.number().catch(4.5),
   mortgageTerm: z.number().catch(25),
+  propertyValue: z.number().catch(800_000),
+  firstTimeBuyer: z.boolean().catch(false),
   rent: z.number().catch(2_000),
   rentIncrease: z.number().catch(2),
   rentTerm: z.number().catch(25),

@@ -1,12 +1,9 @@
-import { MortgageParams, Repayment } from "@entities/mortgages";
-
-export type MortgageSummary = {
-  params: MortgageParams;
-  repayments: Repayment[];
-  monthlyAmount: number;
-  totalInterest: number;
-  totalRepayment: number;
-};
+import {
+  MortgageParams,
+  MortgageSummary,
+  Repayment,
+} from "@entities/mortgages";
+import { min, sum } from "ramda";
 
 export const calculateRepayments = (
   params: MortgageParams,
@@ -42,18 +39,81 @@ export const calculateRepayments = (
     });
   }
 
+  const stampDuty = calculateStampDuty(
+    params.propertyValue,
+    params.firstTimeBuyer,
+  );
+
   return {
     params,
     repayments,
     monthlyAmount,
-    totalInterest: totalInterest,
+    totalInterest,
     totalRepayment: loan + totalInterest,
+    stampDuty,
+    totalCost: totalInterest + stampDuty,
   };
 };
 
 const calculateMonthlyRepayment = ({ loan, rate, term }: MortgageParams) => {
   const monthlyRate = rate / 100 / 12;
-  const ln = Math.pow(1 + monthlyRate, term * 12 - 1);
+  const ln = Math.pow(1 + monthlyRate, term * 12);
   const monthlyAmount = loan / ((1 - 1 / ln) / monthlyRate);
   return { monthlyAmount, monthlyRate };
+};
+
+// as of 2023-24
+const stampDutyBands = [
+  {
+    threshold: 250_000,
+    rate: 0,
+  },
+  {
+    threshold: 925_000,
+    rate: 0.05,
+  },
+  {
+    threshold: 1_500_000,
+    rate: 0.1,
+  },
+  {
+    rate: 0.2,
+  },
+];
+
+const firstTimeBuyerBands = [
+  {
+    threshold: 425_000,
+    rate: 0,
+  },
+  {
+    rate: 0.05,
+  },
+];
+
+const calculateStampDuty = (
+  propertyValue: number,
+  firstTimeBuyer: boolean,
+): number => {
+  const bands =
+    firstTimeBuyer && propertyValue <= 625_000
+      ? firstTimeBuyerBands
+      : stampDutyBands;
+
+  const stampDuty = sum(
+    bands.map((band, index) => {
+      const prevBand = bands[index - 1];
+
+      const portionStart = prevBand?.threshold ?? 0;
+      const portionEnd = band.threshold;
+
+      const portion =
+        min(portionEnd ?? propertyValue, propertyValue) -
+        min(portionStart, propertyValue);
+
+      return portion * band.rate;
+    }),
+  );
+
+  return stampDuty;
 };

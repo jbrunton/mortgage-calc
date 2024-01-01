@@ -2,17 +2,70 @@ import { MortgageParams, Repayment } from "@entities/mortgages";
 import { calculateRepayments } from "./calculate_repayments";
 
 describe("calculateRepayments", () => {
-  const params: MortgageParams = { loan: 1000, rate: 4, term: 2 };
+  const params: MortgageParams = {
+    loan: 1000,
+    rate: 4,
+    term: 2,
+    propertyValue: 500_000,
+    firstTimeBuyer: false,
+  };
 
   it("returns summary statistics", () => {
-    const { totalInterest, monthlyAmount } = calculateRepayments(params);
-    expect(totalInterest).toBeCloseTo(40.49);
-    expect(monthlyAmount).toBeCloseTo(45.24);
+    const { totalInterest, monthlyAmount, stampDuty, totalCost } =
+      calculateRepayments(params);
+    expect(totalInterest).toBeCloseTo(42.2);
+    expect(monthlyAmount).toBeCloseTo(43.42);
+    expect(stampDuty).toBeCloseTo(12500);
+    expect(totalCost).toBeCloseTo(12542.2);
   });
 
   it("returns payments for the term", () => {
     const { repayments } = calculateRepayments(params);
-    expect(repayments.length).toEqual(23);
+    expect(repayments.length).toEqual(24);
+  });
+
+  describe("calculates stamp duty", () => {
+    const examples = [
+      {
+        propertyValue: 250_000,
+        stampDuty: 0,
+        firstTimeBuyer: false,
+      },
+      {
+        propertyValue: 500_000,
+        stampDuty: 12_500,
+        firstTimeBuyer: false,
+      },
+      {
+        propertyValue: 1_000_000,
+        stampDuty: 41_250,
+        firstTimeBuyer: false,
+      },
+      {
+        propertyValue: 250_000,
+        stampDuty: 0,
+        firstTimeBuyer: true,
+      },
+      {
+        propertyValue: 500_000,
+        stampDuty: 3_750,
+        firstTimeBuyer: true,
+      },
+      {
+        propertyValue: 1_000_000,
+        stampDuty: 41_250,
+        firstTimeBuyer: true,
+      },
+    ];
+
+    examples.forEach(({ propertyValue, stampDuty, firstTimeBuyer }) => {
+      test(`stamp duty on ${propertyValue} is ${stampDuty} when firstTimeBuyer=${firstTimeBuyer}`, () => {
+        expect(
+          calculateRepayments({ ...params, propertyValue, firstTimeBuyer })
+            .stampDuty,
+        ).toEqual(stampDuty);
+      });
+    });
   });
 
   it("calculates repayments and interest", () => {
@@ -23,56 +76,46 @@ describe("calculateRepayments", () => {
     assertRepaymentsEqual(firstRepayments, [
       {
         month: 1,
-
-        amount: 45.24,
-        interest: 3.33,
-        principal: 41.91,
-
-        cumulativeInterest: 3.33,
-        remainingPrincipal: 958.09,
+        amount: 43.424922170773044,
+        principal: 40.09158883743971,
+        interest: 3.3333333333333335,
+        remainingPrincipal: 959.9084111625602,
+        cumulativeInterest: 3.3333333333333335,
       },
       {
         month: 2,
-
-        amount: 45.24,
-        interest: 3.19,
-        principal: 42.04,
-
-        remainingPrincipal: 916.05,
-        cumulativeInterest: 6.53,
+        amount: 43.424922170773044,
+        principal: 40.22522746689784,
+        interest: 3.199694703875201,
+        remainingPrincipal: 919.6831836956624,
+        cumulativeInterest: 6.533028037208535,
       },
       {
         month: 3,
-
-        amount: 45.24,
-        interest: 3.05,
-        principal: 42.19,
-
-        remainingPrincipal: 873.86,
-        cumulativeInterest: 9.58,
+        amount: 43.424922170773044,
+        principal: 40.359311558454166,
+        interest: 3.0656106123188747,
+        remainingPrincipal: 879.3238721372082,
+        cumulativeInterest: 9.598638649527409,
       },
     ]);
 
     assertRepaymentsEqual(lastRepayments, [
       {
-        month: 22,
-
-        amount: 45.24,
-        interest: 0.3,
-        principal: 44.94,
-
-        cumulativeInterest: 40.34,
-        remainingPrincipal: 45.09,
+        month: 23,
+        amount: 43.424922170773044,
+        principal: 43.136863780417066,
+        interest: 0.28805839035598013,
+        remainingPrincipal: 43.28065332637697,
+        cumulativeInterest: 42.05386325415697,
       },
       {
-        month: 23,
-
-        amount: 45.24,
-        interest: 0.15,
-        principal: 45.09,
-
-        cumulativeInterest: 40.49,
-        remainingPrincipal: 0,
+        month: 24,
+        amount: 43.424922170773044,
+        principal: 43.28065332635179,
+        interest: 0.1442688444212566,
+        remainingPrincipal: 2.518163455533795e-11,
+        cumulativeInterest: 42.19813209857823,
       },
     ]);
   });

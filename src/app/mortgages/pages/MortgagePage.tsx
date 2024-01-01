@@ -13,9 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { MortgageParamsForm } from "../components/MortgageParamsForm";
 import { SummaryTable } from "../components/SummaryTable";
-import { MortgageParams } from "@entities/mortgages";
+import { MortgageParams, MortgageSummary } from "@entities/mortgages";
 import { FC } from "react";
-import { MortgageSummary } from "@usecases/mortgages/calculate_repayments";
 import { DebtChart, MonthlyRepaymentsChart } from "../components/charts";
 import { Search2Icon } from "@chakra-ui/icons";
 import { RepaymentsTable } from "../components/RepaymentsTable";

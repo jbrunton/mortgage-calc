@@ -56,8 +56,8 @@ describe("App", () => {
 
     fireEvent.blur(termInput);
 
-    expect(screen.getByTestId("monthly-repayment")).toHaveTextContent("713");
-    expect(screen.getByTestId("total-repayments")).toHaveTextContent("213,162");
-    expect(screen.getByTestId("total-interest")).toHaveTextContent("63,162");
+    expect(screen.getByTestId("monthly-repayment")).toHaveTextContent("711");
+    expect(screen.getByTestId("total-repayments")).toHaveTextContent("213,395");
+    expect(screen.getByTestId("total-interest")).toHaveTextContent("63,395");
   });
 });

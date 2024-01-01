@@ -1,11 +1,4 @@
-import { RentParams, RentPayment } from "@entities/rent";
-
-export type RentSummary = {
-  params: RentParams;
-  payments: RentPayment[];
-  finalMonthlyRent: number;
-  totalRent: number;
-};
+import { RentParams, RentPayment, RentSummary } from "@entities/rent";
 
 export const calculateRent = (params: RentParams): RentSummary => {
   const payments: RentPayment[] = [];

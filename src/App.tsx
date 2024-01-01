@@ -10,16 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
 import { ScenariosMenu } from "@app/scenarios/components/ScenariosMenu";
-import { MortgageParams } from "@entities/mortgages";
-import {
-  calculateRepayments,
-  MortgageSummary,
-} from "@usecases/mortgages/calculate_repayments";
+import { MortgageParams, MortgageSummary } from "@entities/mortgages";
+import { calculateRepayments } from "@usecases/mortgages/calculate_repayments";
 import { useSelectedScenarios } from "@app/scenarios/hooks/useSelectedScenario";
 import { MortgagePage } from "@app/mortgages/pages/MortgagePage";
 import { RentPage } from "@app/rent/pages/RentPage";
-import { RentSummary, calculateRent } from "@usecases/rent/calculate_rent";
-import { RentParams } from "@entities/rent";
+import { calculateRent } from "@usecases/rent/calculate_rent";
+import { RentParams, RentSummary } from "@entities/rent";
 import { isMortgageScenario } from "@entities/scenarios";
 import { IndexTabEnum, indexRoute } from "./router";
 
@@ -31,6 +28,8 @@ function App() {
     loan: search.mortgageLoan,
     rate: search.mortgageRate,
     term: search.mortgageTerm,
+    propertyValue: search.propertyValue,
+    firstTimeBuyer: search.firstTimeBuyer,
   };
 
   const setMortgageParams = (params: MortgageParams) => {
@@ -41,6 +40,8 @@ function App() {
           mortgageLoan: params.loan,
           mortgageRate: params.rate,
           mortgageTerm: params.term,
+          propertyValue: params.propertyValue,
+          firstTimeBuyer: params.firstTimeBuyer,
         };
         return newParams;
       },

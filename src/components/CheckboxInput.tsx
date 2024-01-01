@@ -4,43 +4,32 @@ import {
   Flex,
   InputGroup,
   InputRightAddon,
-  Input,
+  Checkbox,
 } from "@chakra-ui/react";
 
 type InputProps = {
   testId: string;
   label: string;
-  value: number;
-  onValueChange: (value: number) => void;
-  onBlur: () => void;
+  value: boolean;
+  onValueChange: (value: boolean) => void;
   suffix?: string;
 };
 
-export const NumberInput: React.FC<InputProps> = ({
+export const CheckboxInput: React.FC<InputProps> = ({
   testId,
   label,
   value,
   onValueChange,
-  onBlur,
   suffix,
 }) => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const value = parseFloat(e.target.value);
-    if (!isNaN(value)) {
-      onValueChange(value);
-    }
+    onValueChange(e.target.checked);
   };
   return (
     <Flex mb={8}>
       <FormLabel flex={1}>{label}</FormLabel>
       <InputGroup flex={2}>
-        <Input
-          data-testid={testId}
-          type="number"
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}
-        />
+        <Checkbox data-testid={testId} onChange={onChange} checked={value} />
         {suffix && <InputRightAddon children={suffix} />}
       </InputGroup>
     </Flex>

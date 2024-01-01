@@ -1,6 +1,6 @@
 import { FormattedNumber } from "react-intl";
 import { Table, Tbody, Tr, Th, Td } from "@chakra-ui/react";
-import { RentSummary } from "@usecases/rent/calculate_rent";
+import { RentSummary } from "@entities/rent";
 
 type SummaryTableProps = {
   summary: RentSummary;

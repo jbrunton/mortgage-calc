@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormControl } from "@chakra-ui/react";
 import { MortgageParams } from "@entities/mortgages";
 import { NumberInput } from "../../../components/NumberInput";
+import { CheckboxInput } from "@components/CheckboxInput";
 
 type MortgageParamsFormProps = {
   params: MortgageParams;
@@ -12,22 +13,34 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
   params,
   onChange,
 }) => {
-  const [loan, setLoan] = useState<number>(params.loan);
-  const [rate, setRate] = useState<number>(params.rate);
-  const [term, setTerm] = useState<number>(params.term);
+  const [loan, setLoan] = useState(params.loan);
+  const [rate, setRate] = useState(params.rate);
+  const [term, setTerm] = useState(params.term);
+  const [propertyValue, setPropertyValue] = useState(params.propertyValue);
 
   useEffect(() => {
-    const { loan, rate, term } = params;
+    const { loan, rate, term, propertyValue } = params;
     setLoan(loan);
     setRate(rate);
     setTerm(term);
+    setPropertyValue(propertyValue);
   }, [JSON.stringify(params)]);
 
   const onBlur = () => {
-    const newParams = { loan, rate, term };
+    const newParams = {
+      loan,
+      rate,
+      term,
+      propertyValue,
+      firstTimeBuyer: params.firstTimeBuyer,
+    };
     if (JSON.stringify(newParams) !== JSON.stringify(params)) {
       onChange(newParams);
     }
+  };
+
+  const onFirstTimeBuyerChecked = (firstTimeBuyer: boolean) => {
+    onChange({ ...params, firstTimeBuyer });
   };
 
   return (
@@ -38,6 +51,19 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
         value={loan}
         onValueChange={setLoan}
         onBlur={onBlur}
+      />
+      <NumberInput
+        label="Property Value"
+        testId="property-value"
+        value={propertyValue}
+        onValueChange={setPropertyValue}
+        onBlur={onBlur}
+      />
+      <CheckboxInput
+        label="First Time Buyer"
+        testId="first-time-buyer"
+        value={params.firstTimeBuyer}
+        onValueChange={onFirstTimeBuyerChecked}
       />
       <NumberInput
         label="Interest Rate"
