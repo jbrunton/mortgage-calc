@@ -8,7 +8,7 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { useNavigate } from "@tanstack/react-router";
+import { RouteApi, useNavigate } from "@tanstack/react-router";
 import { ScenariosMenu } from "@app/scenarios/components/ScenariosMenu";
 import { MortgageParams, MortgageSummary } from "@entities/mortgages";
 import { calculateRepayments } from "@usecases/mortgages/calculate_repayments";
@@ -18,11 +18,13 @@ import { RentPage } from "@app/rent/pages/RentPage";
 import { calculateRent } from "@usecases/rent/calculate_rent";
 import { RentParams, RentSummary } from "@entities/rent";
 import { isMortgageScenario } from "@entities/scenarios";
-import { IndexTabEnum, indexRoute } from "./router";
+import { AppTabEnum } from "./app-search-params";
 
-function App() {
-  const search = indexRoute.useSearch();
-  const navigate = useNavigate({ from: indexRoute.id });
+const appRoute = new RouteApi({ id: "/" });
+
+export const App = () => {
+  const search = appRoute.useSearch();
+  const navigate = useNavigate({ from: appRoute.id });
 
   const mortgageParams: MortgageParams = {
     loan: search.mortgageLoan,
@@ -76,7 +78,7 @@ function App() {
     deleteScenario,
   } = useSelectedScenarios();
 
-  const tabs = [IndexTabEnum.enum.mortgage, IndexTabEnum.Enum.rent];
+  const tabs = [AppTabEnum.enum.mortgage, AppTabEnum.Enum.rent];
   const tabIndex = tabs.indexOf(search.tab);
   const setTabIndex = (index: number) => {
     navigate({
@@ -174,6 +176,4 @@ function App() {
       </Tabs>
     </Container>
   );
-}
-
-export default App;
+};

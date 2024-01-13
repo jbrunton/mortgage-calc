@@ -17,8 +17,7 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { RentPaymentsTable } from "../components/PaymentsTable";
 import { RentParams, RentSummary } from "@entities/rent";
 import { RentParamsForm } from "../components/RentParamsForm";
-import { RentPaymentsChart } from "../components/charts";
-import { CumulativeRentChart } from "../components/charts";
+import { RentPaymentsChart, CumulativeRentChart } from "../components/charts";
 
 type RentPageProps = {
   params: RentParams;

@@ -2,7 +2,7 @@ import { vi } from "vitest";
 import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { buildRouter } from "./router";
+import { buildRouter } from "../router";
 import { IntlProvider } from "react-intl";
 import { ChakraProvider } from "@chakra-ui/react";
 
