@@ -44,6 +44,8 @@ export const calculateRepayments = (
     params.firstTimeBuyer,
   );
 
+  const deposit = params.propertyValue - params.loan;
+
   return {
     params,
     repayments,
@@ -52,6 +54,8 @@ export const calculateRepayments = (
     totalRepayment: loan + totalInterest,
     stampDuty,
     totalCost: totalInterest + stampDuty,
+    deposit,
+    cashOutlay: stampDuty + deposit,
   };
 };
 

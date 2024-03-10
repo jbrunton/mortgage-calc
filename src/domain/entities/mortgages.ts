@@ -24,5 +24,7 @@ export type MortgageSummary = {
   totalInterest: number;
   totalRepayment: number;
   totalCost: number;
+  cashOutlay: number;
+  deposit: number;
   stampDuty: number;
 };

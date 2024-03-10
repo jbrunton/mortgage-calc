@@ -42,6 +42,12 @@ describe("App", () => {
       initialSelectionEnd: 6,
     });
 
+    const propertyValueInput = screen.getByTestId("property-value");
+    await user.type(propertyValueInput, "600000", {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 6,
+    });
+
     const rateInput = screen.getByTestId("rate");
     await user.type(rateInput, "3", {
       initialSelectionStart: 0,
@@ -56,8 +62,10 @@ describe("App", () => {
 
     fireEvent.blur(termInput);
 
+    expect(screen.getByTestId("deposit")).toHaveValue(450_000);
     expect(screen.getByTestId("monthly-repayment")).toHaveTextContent("711");
     expect(screen.getByTestId("total-repayments")).toHaveTextContent("213,395");
     expect(screen.getByTestId("total-interest")).toHaveTextContent("63,395");
+    expect(screen.getByTestId("cash-outlay")).toHaveTextContent("467,500");
   });
 });

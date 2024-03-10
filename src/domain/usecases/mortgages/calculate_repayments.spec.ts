@@ -11,12 +11,13 @@ describe("calculateRepayments", () => {
   };
 
   it("returns summary statistics", () => {
-    const { totalInterest, monthlyAmount, stampDuty, totalCost } =
+    const { totalInterest, monthlyAmount, stampDuty, totalCost, cashOutlay } =
       calculateRepayments(params);
     expect(totalInterest).toBeCloseTo(42.2);
     expect(monthlyAmount).toBeCloseTo(43.42);
     expect(stampDuty).toBeCloseTo(12500);
     expect(totalCost).toBeCloseTo(12542.2);
+    expect(cashOutlay).toBeCloseTo(511500);
   });
 
   it("returns payments for the term", () => {

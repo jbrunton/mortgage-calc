@@ -59,6 +59,12 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
         onValueChange={setPropertyValue}
         onBlur={onBlur}
       />
+      <NumberInput
+        label="Deposit"
+        testId="deposit"
+        readonly={true}
+        value={propertyValue - loan}
+      />
       <CheckboxInput
         label="First Time Buyer"
         testId="first-time-buyer"
