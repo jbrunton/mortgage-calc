@@ -32,6 +32,7 @@ export const App = () => {
     term: search.mortgageTerm,
     propertyValue: search.propertyValue,
     firstTimeBuyer: search.firstTimeBuyer,
+    interestOnly: search.interestOnly,
   };
 
   const setMortgageParams = (params: MortgageParams) => {
@@ -44,6 +45,7 @@ export const App = () => {
           mortgageTerm: params.term,
           propertyValue: params.propertyValue,
           firstTimeBuyer: params.firstTimeBuyer,
+          interestOnly: params.interestOnly,
         };
         return newParams;
       },

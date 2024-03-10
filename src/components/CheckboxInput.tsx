@@ -29,7 +29,7 @@ export const CheckboxInput: React.FC<InputProps> = ({
     <Flex mb={8}>
       <FormLabel flex={1}>{label}</FormLabel>
       <InputGroup flex={2}>
-        <Checkbox data-testid={testId} onChange={onChange} checked={value} />
+        <Checkbox data-testid={testId} onChange={onChange} isChecked={value} />
         {suffix && <InputRightAddon children={suffix} />}
       </InputGroup>
     </Flex>
