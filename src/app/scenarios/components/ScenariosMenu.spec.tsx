@@ -13,6 +13,7 @@ describe("ScenariosMenu", () => {
     term: 20,
     propertyValue: 500_000,
     firstTimeBuyer: false,
+    interestOnly: false,
   };
 
   const myScenario: Scenario = {

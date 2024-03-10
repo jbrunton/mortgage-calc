@@ -10,7 +10,7 @@ export const calculateRepayments = (
 ): MortgageSummary => {
   const { monthlyAmount, monthlyRate } = calculateMonthlyRepayment(params);
 
-  const { loan } = params;
+  const { loan, term } = params;
 
   let remainingPrincipal = loan;
   let month = 0;
@@ -18,7 +18,7 @@ export const calculateRepayments = (
 
   const repayments: Repayment[] = [];
 
-  while (remainingPrincipal > 0.01) {
+  while (month < term * 12) {
     ++month;
 
     const interest = remainingPrincipal * monthlyRate;
@@ -59,8 +59,19 @@ export const calculateRepayments = (
   };
 };
 
-const calculateMonthlyRepayment = ({ loan, rate, term }: MortgageParams) => {
+const calculateMonthlyRepayment = ({
+  loan,
+  rate,
+  term,
+  interestOnly,
+}: MortgageParams) => {
   const monthlyRate = rate / 100 / 12;
+
+  if (interestOnly) {
+    const monthlyAmount = loan * monthlyRate;
+    return { monthlyAmount, monthlyRate };
+  }
+
   const ln = Math.pow(1 + monthlyRate, term * 12);
   const monthlyAmount = loan / ((1 - 1 / ln) / monthlyRate);
   return { monthlyAmount, monthlyRate };

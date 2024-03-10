@@ -8,6 +8,7 @@ describe("calculateRepayments", () => {
     term: 2,
     propertyValue: 500_000,
     firstTimeBuyer: false,
+    interestOnly: false,
   };
 
   it("returns summary statistics", () => {
@@ -62,6 +63,7 @@ describe("calculateRepayments", () => {
           const summary = calculateRepayments({
             propertyValue: 500_000,
             firstTimeBuyer: false,
+            interestOnly: false,
             loan,
             rate,
             term,
@@ -148,6 +150,58 @@ describe("calculateRepayments", () => {
         interest: 0.1442688444212566,
         remainingPrincipal: 2.518163455533795e-11,
         cumulativeInterest: 42.19813209857823,
+      },
+    ]);
+  });
+
+  it("calculates interest only payments", () => {
+    const { repayments, ...summary } = calculateRepayments({
+      loan: 300_000,
+      rate: 4,
+      term: 20,
+      propertyValue: 500_000,
+      firstTimeBuyer: false,
+      interestOnly: true,
+    });
+
+    expect(summary.monthlyAmount).toBeCloseTo(1_000);
+    expect(summary.totalInterest).toBeCloseTo(240_000);
+
+    assertRepaymentsEqual(repayments.slice(0, 2), [
+      {
+        month: 1,
+        amount: 1_000,
+        principal: 0,
+        interest: 1_000,
+        remainingPrincipal: 300_000,
+        cumulativeInterest: 1_000,
+      },
+      {
+        month: 2,
+        amount: 1_000,
+        principal: 0,
+        interest: 1_000,
+        remainingPrincipal: 300_000,
+        cumulativeInterest: 2_000,
+      },
+    ]);
+
+    assertRepaymentsEqual(repayments.slice(-2), [
+      {
+        month: 239,
+        amount: 1_000,
+        principal: 0,
+        interest: 1_000,
+        remainingPrincipal: 300_000,
+        cumulativeInterest: 239_000,
+      },
+      {
+        month: 240,
+        amount: 1_000,
+        principal: 0,
+        interest: 1_000,
+        remainingPrincipal: 300_000,
+        cumulativeInterest: 240_000,
       },
     ]);
   });

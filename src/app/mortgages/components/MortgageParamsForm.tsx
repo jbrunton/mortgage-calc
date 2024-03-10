@@ -33,6 +33,7 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
       term,
       propertyValue,
       firstTimeBuyer: params.firstTimeBuyer,
+      interestOnly: params.interestOnly,
     };
     if (JSON.stringify(newParams) !== JSON.stringify(params)) {
       onChange(newParams);
@@ -41,6 +42,10 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
 
   const onFirstTimeBuyerChecked = (firstTimeBuyer: boolean) => {
     onChange({ ...params, firstTimeBuyer });
+  };
+
+  const onInterestOnlyChecked = (interestOnly: boolean) => {
+    onChange({ ...params, interestOnly });
   };
 
   return (
@@ -78,6 +83,12 @@ export const MortgageParamsForm: React.FC<MortgageParamsFormProps> = ({
         value={rate}
         onValueChange={setRate}
         onBlur={onBlur}
+      />
+      <CheckboxInput
+        label="Interest Only"
+        testId="interest-only"
+        value={params.interestOnly}
+        onValueChange={onInterestOnlyChecked}
       />
       <NumberInput
         label="Term"

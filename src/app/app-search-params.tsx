@@ -9,6 +9,7 @@ export const appSearchSchema = z.object({
   mortgageTerm: z.number().catch(20),
   propertyValue: z.number().catch(600000),
   firstTimeBuyer: z.boolean().catch(false),
+  interestOnly: z.boolean().catch(false),
   rent: z.number().catch(1500),
   rentIncrease: z.number().catch(2),
   rentTerm: z.number().catch(25),

@@ -1,6 +1,7 @@
 export type MortgageParams = {
   propertyValue: number;
   firstTimeBuyer: boolean;
+  interestOnly: boolean;
   loan: number;
   rate: number;
   term: number;
