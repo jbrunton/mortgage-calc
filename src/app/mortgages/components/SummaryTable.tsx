@@ -79,6 +79,16 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ summary }) => {
             % of loan value)
           </Td>
         </Tr>
+        <Tr>
+          <Th p="0">Cash Outlay (deposit + SDLT)</Th>
+          <Td data-testid="cash-outlay">
+            <FormattedNumber
+              value={summary.cashOutlay}
+              maximumFractionDigits={0}
+            />
+          </Td>
+          <Td />
+        </Tr>
       </Tbody>
     </Table>
   );

@@ -11,8 +11,9 @@ type InputProps = {
   testId: string;
   label: string;
   value: number;
-  onValueChange: (value: number) => void;
-  onBlur: () => void;
+  onValueChange?: (value: number) => void;
+  onBlur?: () => void;
+  readonly?: boolean;
   suffix?: string;
 };
 
@@ -23,11 +24,12 @@ export const NumberInput: React.FC<InputProps> = ({
   onValueChange,
   onBlur,
   suffix,
+  readonly,
 }) => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = parseFloat(e.target.value);
     if (!isNaN(value)) {
-      onValueChange(value);
+      onValueChange?.(value);
     }
   };
   return (
@@ -40,6 +42,8 @@ export const NumberInput: React.FC<InputProps> = ({
           onChange={onChange}
           onBlur={onBlur}
           value={value}
+          border={readonly ? "none" : undefined}
+          readOnly={readonly === true}
         />
         {suffix && <InputRightAddon children={suffix} />}
       </InputGroup>
