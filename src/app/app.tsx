@@ -19,6 +19,7 @@ import { calculateRent } from "@usecases/rent/calculate_rent";
 import { RentParams, RentSummary } from "@entities/rent";
 import { isMortgageScenario } from "@entities/scenarios";
 import { AppTabEnum } from "./app-search-params";
+import { stampDutyRates } from "@usecases/mortgages/rates";
 
 const appRoute = new RouteApi({ id: "/" });
 
@@ -94,7 +95,7 @@ export const App = () => {
   const onMortgageParamsChange = (params: MortgageParams) => {
     setMortgageParams(params);
 
-    const summary = calculateRepayments(params);
+    const summary = calculateRepayments(params, stampDutyRates);
     setMortgageSummary(summary);
 
     loadScenario(undefined);
