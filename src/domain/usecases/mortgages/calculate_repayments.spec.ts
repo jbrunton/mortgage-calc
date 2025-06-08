@@ -1,5 +1,41 @@
 import { MortgageParams, Repayment } from "@entities/mortgages";
 import { calculateRepayments } from "./calculate_repayments";
+import { StampDutyBand, StampDutyRates } from "./rates";
+
+// as of 2023-24
+const stampDutyBands: StampDutyBand[] = [
+  {
+    threshold: 250_000,
+    rate: 0,
+  },
+  {
+    threshold: 925_000,
+    rate: 0.05,
+  },
+  {
+    threshold: 1_500_000,
+    rate: 0.1,
+  },
+  {
+    rate: 0.12,
+  },
+];
+
+const firstTimeBuyerBands: StampDutyBand[] = [
+  {
+    threshold: 425_000,
+    rate: 0,
+  },
+  {
+    rate: 0.05,
+  },
+];
+
+export const stampDutyRates: StampDutyRates = {
+  stampDutyBands,
+  firstTimeBuyerBands,
+  firstTimeBuyerThreshold: 625_000,
+};
 
 describe("calculateRepayments", () => {
   const params: MortgageParams = {
@@ -13,7 +49,7 @@ describe("calculateRepayments", () => {
 
   it("returns summary statistics", () => {
     const { totalInterest, monthlyAmount, stampDuty, totalCost, cashOutlay } =
-      calculateRepayments(params);
+      calculateRepayments(params, stampDutyRates);
     expect(totalInterest).toBeCloseTo(42.2);
     expect(monthlyAmount).toBeCloseTo(43.42);
     expect(stampDuty).toBeCloseTo(12500);
@@ -22,7 +58,7 @@ describe("calculateRepayments", () => {
   });
 
   it("returns payments for the term", () => {
-    const { repayments } = calculateRepayments(params);
+    const { repayments } = calculateRepayments(params, stampDutyRates);
     expect(repayments.length).toEqual(24);
   });
 
@@ -60,14 +96,17 @@ describe("calculateRepayments", () => {
         test(`cost of ${
           loan / 1000
         }k loan is ${totalInterest} when rate=${rate}, term=${term}`, () => {
-          const summary = calculateRepayments({
-            propertyValue: 500_000,
-            firstTimeBuyer: false,
-            interestOnly: false,
-            loan,
-            rate,
-            term,
-          });
+          const summary = calculateRepayments(
+            {
+              propertyValue: 500_000,
+              firstTimeBuyer: false,
+              interestOnly: false,
+              loan,
+              rate,
+              term,
+            },
+            stampDutyRates,
+          );
           expect(summary.monthlyAmount).toBeCloseTo(monthlyAmount, 0);
           expect(summary.totalInterest).toBeCloseTo(totalInterest, 0);
           expect(summary.totalRepayment).toBeCloseTo(totalRepayment, 0);
@@ -95,15 +134,17 @@ describe("calculateRepayments", () => {
     examples.forEach(({ propertyValue, stampDuty, firstTimeBuyer }) => {
       test(`stamp duty on ${propertyValue} is ${stampDuty} when firstTimeBuyer=${firstTimeBuyer}`, () => {
         expect(
-          calculateRepayments({ ...params, propertyValue, firstTimeBuyer })
-            .stampDuty,
+          calculateRepayments(
+            { ...params, propertyValue, firstTimeBuyer },
+            stampDutyRates,
+          ).stampDuty,
         ).toEqual(stampDuty);
       });
     });
   });
 
   it("calculates repayments and interest", () => {
-    const { repayments } = calculateRepayments(params);
+    const { repayments } = calculateRepayments(params, stampDutyRates);
     const firstRepayments = repayments.slice(0, 3);
     const lastRepayments = repayments.slice(-2);
 
@@ -155,14 +196,17 @@ describe("calculateRepayments", () => {
   });
 
   it("calculates interest only payments", () => {
-    const { repayments, ...summary } = calculateRepayments({
-      loan: 300_000,
-      rate: 4,
-      term: 20,
-      propertyValue: 500_000,
-      firstTimeBuyer: false,
-      interestOnly: true,
-    });
+    const { repayments, ...summary } = calculateRepayments(
+      {
+        loan: 300_000,
+        rate: 4,
+        term: 20,
+        propertyValue: 500_000,
+        firstTimeBuyer: false,
+        interestOnly: true,
+      },
+      stampDutyRates,
+    );
 
     expect(summary.monthlyAmount).toBeCloseTo(1_000);
     expect(summary.totalInterest).toBeCloseTo(240_000);

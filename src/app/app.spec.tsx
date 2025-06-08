@@ -66,6 +66,6 @@ describe("App", () => {
     expect(screen.getByTestId("monthly-repayment")).toHaveTextContent("711");
     expect(screen.getByTestId("total-repayments")).toHaveTextContent("213,395");
     expect(screen.getByTestId("total-interest")).toHaveTextContent("63,395");
-    expect(screen.getByTestId("cash-outlay")).toHaveTextContent("467,500");
+    expect(screen.getByTestId("cash-outlay")).toHaveTextContent("470,000");
   });
 });

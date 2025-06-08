@@ -4,9 +4,11 @@ import {
   Repayment,
 } from "@entities/mortgages";
 import { min, sum } from "ramda";
+import { StampDutyRates } from "./rates";
 
 export const calculateRepayments = (
   params: MortgageParams,
+  stampDutyRates: StampDutyRates,
 ): MortgageSummary => {
   const { monthlyAmount, monthlyRate } = calculateMonthlyRepayment(params);
 
@@ -42,6 +44,7 @@ export const calculateRepayments = (
   const stampDuty = calculateStampDuty(
     params.propertyValue,
     params.firstTimeBuyer,
+    stampDutyRates,
   );
 
   const deposit = params.propertyValue - params.loan;
@@ -77,41 +80,17 @@ const calculateMonthlyRepayment = ({
   return { monthlyAmount, monthlyRate };
 };
 
-// as of 2023-24
-const stampDutyBands = [
-  {
-    threshold: 250_000,
-    rate: 0,
-  },
-  {
-    threshold: 925_000,
-    rate: 0.05,
-  },
-  {
-    threshold: 1_500_000,
-    rate: 0.1,
-  },
-  {
-    rate: 0.12,
-  },
-];
-
-const firstTimeBuyerBands = [
-  {
-    threshold: 425_000,
-    rate: 0,
-  },
-  {
-    rate: 0.05,
-  },
-];
-
 const calculateStampDuty = (
   propertyValue: number,
   firstTimeBuyer: boolean,
+  {
+    stampDutyBands,
+    firstTimeBuyerBands,
+    firstTimeBuyerThreshold,
+  }: StampDutyRates,
 ): number => {
   const bands =
-    firstTimeBuyer && propertyValue <= 625_000
+    firstTimeBuyer && propertyValue <= firstTimeBuyerThreshold
       ? firstTimeBuyerBands
       : stampDutyBands;
 
